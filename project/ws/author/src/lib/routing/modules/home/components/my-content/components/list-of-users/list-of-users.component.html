@@ -1,0 +1,107 @@
+<div class="container-balanced fix-ww mt-1">
+  <span class="flex mat-title margin-top-l margin-left-m">Users</span>
+  <div class="flex flex-1 flex-column margin-fix">
+    <div class="flex flex-1 flex-column margin-fix margin-bottom-l">
+      <div class="flex flex-1 filter max-height-60">
+        <a class="filter-option ws-mat-accent-border font-medium"
+          [ngClass]="{'ws-mat-accent-border-active': typeOfUser === 'active'}" mat-button role="button" tabindex="0"
+          aria-disabled="false" href="javascript:void(0)" (click)="toggelTabAction('activeUsers')">
+          <span class="mat-button-wrapper"> Active</span>
+        </a>
+        <a class="filter-option ws-mat-accent-border font-medium"
+          [ngClass]="{'ws-mat-accent-border-active': typeOfUser === 'inactive'}" mat-button="" role="button"
+          tabindex="0" aria-disabled="false" href="javascript:void(0)" (click)="toggelTabAction('inactiveUsers')">
+          <span class="mat-button-wrapper"> Inactive </span>
+        </a>
+      </div>
+    </div>
+    <div class="flex flex-1 custom">
+      <div class=" flex-2">
+        <div class="search">
+          <div class="rsearch">
+            <mat-icon class="color-60 search-icon mat-icon notranslate material-icons mat-icon-no-color" role="img"
+              aria-hidden="true">search</mat-icon><input class="sinput color-60" label="" placeholder="Search"
+              type="Standard" [(ngModel)]="searchValue" (ngModelChange)="filterData()">
+          </div>
+        </div>
+      </div>
+      <div class=" flex-2 right-align">
+        <button mat-raised-button class="margin-right-s ws-mat-accent-border mat-button mat-button-base" type="button"
+          disabled>
+          <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" role="img" aria-hidden="true">
+            vertical_align_top</mat-icon> Bulk upload
+        </button>
+        <button mat-raised-button class="ws-mat-primary-background mat-button mat-button-base text-white" type="button"
+          (click)="actionBtn('createNew', '')">Create new user</button>
+      </div>
+    </div>
+    <div class="flex flex-1 filter max-height-60">
+      <table mat-table class="userTable" [dataSource]="tableDataSource">
+
+        <!-- Full Name Column -->
+        <ng-container matColumnDef="Full Name">
+          <th mat-header-cell *matHeaderCellDef class="h-400-r-14-l"> Full Name </th>
+          <td mat-cell *matCellDef="let element" class="color-87 cursor-pointer"
+            (click)="actionBtn('existingUser', element.userId)">
+            <span class="nameSpan margin-right-s"
+              [ngStyle]="{'background-color':  circleColor }">{{createInititals(element.fullName)}}</span>
+            {{element.fullName}}
+          </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef class="h-400-r-14-l"> Email </th>
+          <td mat-cell *matCellDef="let element" class="color-87"> {{element.email}} </td>
+        </ng-container>
+
+        <!-- Role Column -->
+        <ng-container matColumnDef="Role">
+          <th mat-header-cell *matHeaderCellDef class="h-400-r-14-l"> Role </th>
+          <td mat-cell *matCellDef="let element" class="color-87">
+            <ul class="padding-left-s">
+              <li *ngFor="let item of element.role"> {{item}}</li>
+            </ul>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deleteEmployee">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element" class="iconBox">
+            <button mat-icon-button color="primary" [matMenuTriggerFor]="moreMenu"
+              [matMenuTriggerData]="{element: element}">
+              <mat-icon class="mat-icon">more_horiz</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="ws-mat-background-04"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+      </table>
+    </div>
+    <div class="flex flex-1 filter justify-content-end margin-bottom-xl"
+      [hidden]="tableDataSource && tableDataSource.filteredData.length < 1">
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+    <div class="text-center margin-m" *ngIf="tableDataSource && tableDataSource.filteredData.length < 1">
+      <img class="block mx-auto mb-3" src="/assets/instances/eagle/app_logos/allocation_empty.svg" alt="No CBPs found">
+      <span class="block mat-subheading-2 mt-3">No Users Found</span>
+    </div>
+  </div>
+</div>
+
+<mat-menu #moreMenu="matMenu">
+  <ng-template matMenuContent let-rowData="element">
+    <a mat-menu-item (click)="deactiveOrActiveUser(rowData, 'deactiveUser')" href="javascript:void(0)"
+      *ngIf="typeOfUser === 'active'">
+      <mat-icon>toggle_off_sharp</mat-icon>
+      <span i18n>Deactivate user</span>
+    </a>
+    <a mat-menu-item (click)="deactiveOrActiveUser(rowData, 'activateUser')" href="javascript:void(0)"
+      *ngIf="typeOfUser === 'inactive'">
+      <mat-icon>toggle_on_sharp</mat-icon>
+      <span i18n>Activate user</span>
+    </a>
+  </ng-template>
+</mat-menu>

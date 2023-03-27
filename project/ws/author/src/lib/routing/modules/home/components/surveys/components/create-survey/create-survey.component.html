@@ -1,0 +1,178 @@
+<div class="margin-left-xl margin-top-l margin-bottom-l margin-right-m">
+  <div class="flex flex-wrapped margin-top-xs">
+    <a class=" ng-star-inserted" [routerLink]="'/author/surveys'" tabindex="0" aria-disabled="false">
+      <span class="flex">
+        <mat-icon class="mat-icon notranslate material-icons ws-mat-primary-text mr-2" role="img" aria-hidden="true">
+          arrow_back
+        </mat-icon>
+        Back
+      </span>
+    </a>
+  </div>
+  <div class="flex flex-wrapped margin-top-xs">
+    <span class="flex mat-title margin-top-l" *ngIf="!isEditMode">Create survey questions</span>
+    <span class="flex mat-title margin-top-l" *ngIf="isEditMode">Update survey questions</span>
+  </div>
+  <form [formGroup]="surveyForm">
+    <div class="flex flex-wrapped">
+      <div class="flex-1 items-center ">
+        <div class="margin-top-xs">
+          <span class="mat-subheading-2 margin-remove flex required"
+            i18n="Title label|Label which explains the user to enter title">
+            Add survey title
+          </span>
+          <mat-form-field appearance="outline" class="surveytitle">
+            <input matInput #title formControlName="title" maxlength="500" i18n-placeholder
+              placeholder="Enter survey title" tabindex="1" autocomplete="off" maxlength="50" />
+            <!-- (keypress)="keyPressAlphaNumeric($event)" -->
+            <!-- <mat-hint align="end">{{ title.value.length }} / 500</mat-hint> -->
+            <mat-error [hidden]="false"
+              *ngIf="surveyForm?.controls['title'].invalid || surveyForm?.controls['title'].errors?.required"
+              i18n="Title Error | Explains title is required">
+              Title is mandatory
+            </mat-error>
+            <!-- <mat-error [hidden]="false" *ngIf="surveyForm?.controls['title'].errors?.pattern" i18n-aria-label
+              aria-label="Title Error | Explains title must be alphanumeric value">
+              Please enter alphanumeric value
+            </mat-error> -->
+            <mat-hint align="end">{{title.value.length}} of 50</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="divider w-full mat-gray-016 margin-top-m margin-bottom-l">
+
+  </div>
+  <div class="flex flex-row margin-top-xl justify-between">
+    <div class="flex flex-col point_heading_box">
+      <button mat-button class="mat-button mat-button-base save_btn add_ques_btn" type="button"
+        (click)="addQuestionList()">
+        <span class="mat-button-wrapper">Add survey question</span>
+      </button>
+      <div class="flex items-center search border border-solid search-border mt-2">
+        <div class="pl-2 w-full">
+          <mat-form-field class="w-full" appearance="none" [floatLabel]="'never'">
+            <mat-icon matPrefix class="m-auto flex searchinput flex padding-top-xs">search</mat-icon>
+            <input type="search" matInput name="searchBox" placeholder="Search" i18n-placeholder="Search survey"
+              i18-aria-label aria-label="Query" autocomplete="off" class="custom-search" [(ngModel)]="searchValue"
+              (ngModelChange)="filterData()" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="divider w-full mat-gray-016 margin-top-m margin-bottom-l" *ngIf="questionList.length==0"></div>
+      <div class="text-center margin-m" *ngIf="questionList.length==0">
+        <span class="block mat-subheading-2 mt-3">No Result Found</span>
+      </div>
+      <mat-list cdkDropList role="list" class="margin-top-s" (cdkDropListDropped)="drop($event)">
+        <mat-list-item role="listitem" *ngFor="let item of questionList; let i = index" class="listOfQuestions" cdkDrag>
+          <mat-radio-button [value]="item.identifier" class="questionlistCss" (change)="questionSelected($event)"
+            [checked]="item.identifier === selectedQuestionNode">
+            {{i + 1}}. {{item.name}}
+          </mat-radio-button>
+          <button mat-icon-button class="moreOptions" [matMenuTriggerFor]="moreMenu"
+            [matMenuTriggerData]="{'survey': item}">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="flex flex-col point_detail_box margin-left-xs" *ngIf="selectedQuestionNode">
+      <div class="flex flex-1 flex-row">
+        <div class="w-full pl-2">
+          <mat-form-field appearance="outline" class="w-full">
+            <input matInput #question placeholder="Type your question here" [(ngModel)]="questionText"
+              autocomplete="off" maxlength="100" required>
+            <!-- <mat-error [hidden]="false" *ngIf="(name.dirty || name.touched) && name.errors?.reqired" i18n="Question Error| Explains question is required">
+              Question is mandatory
+            </mat-error>
+            <mat-error [hidden]="false" *ngIf="(name.dirty || name.touched) && name.errors?.pattern" i18n-aria-label
+              aria-label="Question Error | Explains question must be alphanumeric value">
+              Please enter alphanumeric value
+            </mat-error> -->
+            <mat-hint align="end">{{question.value.length}} of 100</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="select_box margin-left-m pl-2">
+          <mat-form-field appearance="outline">
+            <mat-select [(ngModel)]="questionType" placeholder="Question Type"
+              (selectionChange)="selectedQuestionType($event)">
+              <mat-option value="star-rating" i18n>Star rating</mat-option>
+              <mat-option value="mcq-mca" i18n="MCQ | acronym for multiple choice question">Multi select
+              </mat-option>
+              <mat-option value="mcq-sca" i18n="MCQ | acronym for single choice question">Single select
+              </mat-option>
+              <mat-option value="textarea" i18n>Multi-line text</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="question_box">
+        <div class="flex flex-col ">
+          <ws-auth-multiple-choice-question *ngIf="questionType === 'mcq-sca'" [currentId]="selectedQuestionNode"
+            [showHint]="false" [submitPressed]="false" [showCorrectAnswer]="false" (value)="updateSelectedQuiz($event)">
+          </ws-auth-multiple-choice-question>
+          <ws-auth-multiple-choice-question *ngIf="questionType === 'mcq-mca'" [currentId]="selectedQuestionNode"
+            [showHint]="false" [submitPressed]="false" [showCorrectAnswer]="false" (value)="updateSelectedQuiz($event)">
+          </ws-auth-multiple-choice-question>
+          <ws-auth-textarea-question *ngIf="questionType === 'textarea'" [currentId]="selectedQuestionNode">
+
+          </ws-auth-textarea-question>
+          <ws-auth-star-rating-question *ngIf="questionType === 'star-rating'" [currentId]="selectedQuestionNode">
+
+          </ws-auth-star-rating-question>
+        </div>
+      </div>
+
+      <div class="bg_white w-full question_footer margin-bottom-none flex flex-row justify-between content-end">
+        <div class="flex">
+          <button class="mat-button mat-button-base save_btn save-custom" type="button" (click)="saveQuestion(true)">
+            <span class="mat-button-wrapper">Save</span>
+          </button>
+        </div>
+        <div class="flex flex-row items-center">
+          <!-- <span class="mat-button-wrapper">
+                  <mat-icon class="mat-icon">content_copy</mat-icon>
+                </span> -->
+          <button mat-button class="padding-xs" (click)="removeSurvey('deleteQuestion')">
+            <span class="mat-button-wrapper">
+              <mat-icon class="mat-icon">delete</mat-icon>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-row justify-end margin-top-m">
+    <button mat-button class="mat-button mat-button-base save_btn margin-right-m" type="submit" (click)="reset()"
+      *ngIf="!isEditMode" [disabled]="surveyForm?.invalid">
+      <span class="mat-subheading-2 padding-xs custom-line-h">Reset</span>
+    </button>
+    <!-- <button mat-button class=" mat-button mat-button-base save_btn" type="submit" (click)="saveSection()" *ngIf="
+            ((contentData && !contentData.childNodes) ||
+            (contentData && contentData.childNodes && !contentData.childNodes.includes(sectionData)))
+            && isEditEnabled">
+      <span class="mat-button-wrapper">Create survey</span>
+    </button> -->
+    <button mat-raised-button type="submit" class="text-white ws-mat-primary-background" (click)="createSurvey()"
+      *ngIf="!isEditMode"
+      [disabled]="surveyForm?.invalid || surveySvc.surveyData.fields.length == 0 || !surveySvc.surveyData.title || isSubmitted">
+      <span class="mat-subheading-2 padding-xs">Create survey</span>
+    </button>
+    <button mat-raised-button type="submit" class="text-white ws-mat-primary-background" (click)="createSurvey()"
+      *ngIf="isEditMode">
+      <span class="mat-subheading-2 padding-xs">Update survey</span>
+    </button>
+  </div>
+
+  <!-- delete option -->
+  <mat-menu #moreMenu="matMenu">
+    <ng-template matMenuContent let-survey="survey">
+      <a mat-menu-item (click)="removeSurvey('deleteQuestion', survey)">
+        <mat-icon>delete</mat-icon>
+        <span i18n>Delete </span>
+      </a>
+    </ng-template>
+  </mat-menu>
+</div>

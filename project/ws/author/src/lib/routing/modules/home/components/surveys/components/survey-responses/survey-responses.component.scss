@@ -1,0 +1,51 @@
+.main-response-container {
+  width: 100%;
+  position: relative;
+}
+
+.left-sidebar {
+  height: 100vh;
+  background-color: #fff;
+  width: 22%;
+  display: inline-block;
+  margin: 0 !important;
+  padding: 2em 0 0 1em;
+}
+.right-content-box {
+  height: 100vh;
+  width: calc(100% - 24%);
+  display: inline-block;
+  vertical-align: top;
+  background: #F0F3F4 !important;
+  padding: 1.5em 0;
+}
+.content-inner-box {
+  padding:20px 24px;
+}
+.back-icon-div {
+  height: 40px;
+  padding-left: 1.5em;
+}
+.back-icon {
+  font-size: 16px;
+  vertical-align: middle;
+  margin-top:4px;
+}
+.mat-list-item {
+  padding:0px 16px!important;
+  box-sizing: border-box;
+  line-height: 48px;
+}
+.content-card {
+  border-bottom:1px solid rgb(0 0 0 / 8%)
+}
+
+.survey-responses .active{
+  background: rgba(0,0,0,0.04);
+  border-right: 5px solid RGB(0, 116, 182);
+}
+
+::ng-deep.main-container-two {
+    padding: 2rem !important;
+    width: 93% !important;
+}

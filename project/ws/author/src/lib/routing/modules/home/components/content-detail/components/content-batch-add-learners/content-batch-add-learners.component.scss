@@ -1,0 +1,76 @@
+@import "ws-mixins";
+@import "ws-common";
+
+.border-radius-2 {
+  border-radius: 2px;
+}
+.box {
+  box-shadow: none !important;
+}
+.flex-2 {
+  flex: 2;
+}
+.scroll {
+  max-height: 40vh;
+  overflow-y: auto;
+}
+.max-w {
+  max-width: 100%;
+}
+.mobile-break {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0 $size-m 0 0;
+  flex: 1;
+  // background: bisque;
+}
+// .s-button {
+::ng-deep.mat-slide-toggle-thumb {
+  height: 8px !important;
+  width: 8px !important;
+  transform: translate(50%, 50%);
+  margin-top: 2px !important;
+  // }
+}
+::ng-deep.mat-slide-toggle-bar {
+  height: 16px !important;
+  width: 30px !important;
+}
+.new-mobile {
+  display: flex;
+  flex-direction: row;
+  // margin-top: $size-l;
+
+  @include breakpoint-s {
+    flex-direction: column;
+  }
+
+  @include breakpoint-xs {
+    flex-direction: column;
+  }
+}
+
+.card-contan {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+
+  @include breakpoint-s {
+    flex-direction: column;
+  }
+
+  @include breakpoint-xs {
+    flex-direction: column;
+  }
+}
+.itm-center {
+  align-items: center;
+  padding: $size-m;
+}
+.text-white {
+  color: white !important;
+}
+.flex-05 {
+  flex: 0 50%;
+}

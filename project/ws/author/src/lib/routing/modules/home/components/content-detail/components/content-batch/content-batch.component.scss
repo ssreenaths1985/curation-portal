@@ -1,0 +1,18 @@
+@import "ws-mixins";
+@import "ws-common";
+
+.border-radius-2 {
+  border-radius: 2px;
+}
+.box {
+  margin: $size-s $size-s $size-s 0;
+  min-width: 363px;
+  min-height: 60px;
+  box-shadow: none !important;
+}
+.flex-2 {
+  flex: 2;
+}
+.margin-0 {
+  margin: 0 !important;
+}

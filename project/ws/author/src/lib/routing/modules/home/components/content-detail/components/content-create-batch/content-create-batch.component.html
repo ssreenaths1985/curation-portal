@@ -1,0 +1,151 @@
+<div class="container-balanced mat-app-background">
+  <form [formGroup]="contentForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+    <mat-card class="ws-mat-accent-border border-radius-2 box">
+      <mat-card-title class="m-auto">
+        <span id="basic-information" class="mat-title">Batch details</span>
+      </mat-card-title>
+      <mat-card-content class="margin-top-m mobile-break">
+        <div class="card-contan">
+          <div class="mobile-break">
+            <span class="mat-subheading-2 margin-0" i18n="Title label|Label which explains the user to enter title">
+              Batch name
+            </span>
+            <mat-form-field appearance="outline" class="margin-top-xs"
+              [ngClass]="{ 'mat-form-field-invalid': showError('batchName') }">
+              <input matInput #batchName formControlName="batchName" maxlength="500" i18n-placeholder
+                placeholder="Type here" [required]="true" />
+              <!-- <mat-hint align="end">{{ name.value.length }} / 500</mat-hint> -->
+              <mat-error *ngIf="showError('batchName')" i18n="Name Error|Explains name is required">
+                Batch name is mandatory
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- <div class="card-contan">
+          <div class="mobile-break">
+            <span class="mat-subheading-2 margin-0" i18n="Title label|Label which explains the user to enter batchId">
+              Batch ID
+            </span>
+            <mat-form-field appearance="outline" class="margin-top-xs"
+              [ngClass]="{ 'mat-form-field-invalid': showError('batchId') }">
+              <input matInput #batchId formControlName="batchId" maxlength="500" i18n-placeholder
+                placeholder="Auto generated" [required]="true" />
+              <mat-error *ngIf="showError('batchId')" i18n="batchId Error|Explains batchId is required">
+                Batch ID is mandatory
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div> -->
+
+        <div class="card-contan">
+          <div class="mobile-break">
+            <span class="mat-subheading-2 margin-0"
+              i18n="StartDate label|Label which explains the user to enter Start Date">
+              Start Date
+            </span>
+            <mat-form-field appearance="outline" class="margin-top-xs"
+              [ngClass]="{ 'mat-form-field-invalid': showError('StartDate') }">
+              <!-- <input matInput #StartDate formControlName="StartDate" maxlength="500" i18n-placeholder
+                placeholder="Select start date" [required]="true" /> -->
+              <input matInput [min]="minDate" [matDatepicker]="picker" #StartDate formControlName="StartDate"
+                i18n-placeholder placeholder="Select start date" [required]="true" (focus)="picker.open()">
+              <mat-datepicker-toggle matSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="showError('StartDate')" i18n="StartDate Error|Explains StartDate is required">
+                Start Date is mandatory
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="mobile-break">
+            <span class="mat-subheading-2 margin-0"
+              i18n="End Date label|Label which explains the user to enter End Date">
+              End Date
+            </span>
+            <mat-form-field appearance="outline" class="margin-top-xs"
+              [ngClass]="{ 'mat-form-field-invalid': showError('EndDate') }">
+              <!-- <input matInput #EndDate formControlName="EndDate" maxlength="500" i18n-placeholder
+                placeholder="Select end date" [required]="true" /> -->
+              <!-- <mat-hint align="end">{{ name.value.length }} / 500</mat-hint> -->
+              <input matInput [min]="getMaxDate" [matDatepicker]="picker2" #EndDate formControlName="EndDate"
+                i18n-placeholder placeholder="Select end date" [required]="true" (focus)="picker2.open()">
+              <mat-datepicker-toggle matSuffix [for]="picker2">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+              <mat-hint align="end" i18n>End date cannot be same as Start date.</mat-hint>
+              <mat-error *ngIf="showError('EndDate')" i18n="EndDate Error|Explains EndDate is required">
+                End Date is mandatory
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="card-contan">
+          <div class="mobile-break">
+            <span class="mat-subheading-2 margin-0"
+              i18n="StartDate label|Label which explains the user to enter Start Date">
+              Enrollment End Date
+            </span>
+            <mat-form-field appearance="outline" class="margin-top-xs"
+              [ngClass]="{ 'mat-form-field-invalid': showError('EndEnrolment') }">
+              <!-- <input matInput #StartDate formControlName="StartDate" maxlength="500" i18n-placeholder
+                                    placeholder="Select start date" [required]="true" /> -->
+              <input matInput [min]="getMinEEndDate" [max]="getMmaxEEndDate" [matDatepicker]="pickerE" #EndEnrolment
+                formControlName="EndEnrolment" i18n-placeholder placeholder="Select enrolment end Date"
+                (focus)="pickerE.open()" [required]="true">
+              <mat-datepicker-toggle matSuffix [for]="pickerE">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #pickerE></mat-datepicker>
+              <mat-hint align="end" i18n>Enrollment end date cannot be greater than End date or less than Start date.
+              </mat-hint>
+              <mat-error *ngIf="showError('EndEnrolment')" i18n="EndEnrolment Error|Explains EndEnrolment is required">
+                Enrollment End Date is mandatory
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="card-contan">
+          <div class="mobile-break flex-1 margin-top-l">
+            <label>
+              <div class="flex flex-middle" [ngClass]="{ required: true }">
+                <span i18n class="mat-subheading-2 margin-0">Who can enroll?</span>
+              </div>
+              <span i18 class="mat-body-2">At magnum periculum adiit in quo pertineant non intellegamus.</span>
+            </label>
+
+            <div [ngClass]="{ 'mat-form-field-invalid': showError('enroleType') }">
+              <ng-container [formGroup]="contentForm">
+                <mat-radio-group name="enroleType" class="flex tgl-group margin-top-s" aria-label="Select an option"
+                  formControlName="enroleType">
+                  <mat-radio-button [name]="'radio-' + _enroleType"
+                    class="flex flex-row itm-center ws-mat-accent-border margin-right-s"
+                    *ngFor="let _enroleType of enroleTypeList" [value]="_enroleType">
+                    <span class="mat-body-2">{{_enroleType}}</span>
+                  </mat-radio-button>
+                </mat-radio-group>
+              </ng-container>
+
+              <mat-error *ngIf="showError('enroleType')" i18n>Enrollment type is mandatory
+              </mat-error>
+            </div>
+          </div>
+
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="flex-1">
+        <div class="flex flex-1 flex-row-reverse margin-right-xs margin-bottom-l">
+          <div class="block margin-fix">
+            <button type="button" (click)="cancel()" mat-button class="ws-mat-default-text ws-mat-accent-border-active">
+              Cancel
+            </button>
+            <button type="submit" mat-button class="text-white ws-mat-primary-background" *ngIf="isAllowed">
+              Save
+            </button>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

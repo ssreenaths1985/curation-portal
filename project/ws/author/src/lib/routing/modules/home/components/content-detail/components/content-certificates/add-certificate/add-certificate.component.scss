@@ -1,0 +1,24 @@
+.box {
+  box-shadow: none !important;
+}
+.text-white {
+  color: white !important;
+}
+.preview {
+  min-height: 270px;
+  min-width: 350px;
+  border-radius: 4px;
+  background-color: #f0f3f4;
+
+  .def-back {
+    background: radial-gradient(black, transparent);
+  }
+}
+.fix-wh {
+  display: flex;
+  flex-direction: column;
+  margin: 32px auto auto auto;
+}
+.margin-0 {
+  margin: 0 !important;
+}

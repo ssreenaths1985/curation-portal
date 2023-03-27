@@ -1,0 +1,12 @@
+<mat-card class="flex flex-row author-card ws-mat-background-04" [ngClass]="{'cursor-pointer': !!clicked}" tabindex="0"
+  (click)="viewDetail()">
+  <div class="flex">
+    <ws-widget-avatar-photo [name]="widgetData?.name" [photoUrl]="widgetData?.profileImage" [size]="'square-m'">
+    </ws-widget-avatar-photo>
+  </div>
+  <div class="flex flex-column margin-left-xs">
+    <span class="mat-body-1">{{widgetData?.name}}</span>
+    <span class="mat-body-2">{{widgetData?.email}}</span>
+    <span class="mat-body-2 ws-mat-black60-text">{{widgetData?.authorType}}</span>
+  </div>
+</mat-card>

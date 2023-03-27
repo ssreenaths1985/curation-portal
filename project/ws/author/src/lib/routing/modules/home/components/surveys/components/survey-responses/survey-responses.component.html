@@ -1,0 +1,44 @@
+<div class="main-response-container">
+  <div class="left-sidebar">
+    <h4>Responded users</h4>
+    <div class="sidebar-inner">
+      <mat-nav-list class="margin-top-m flex-1 mat-nav-list mat-list-base survey-responses">
+        <a *ngFor="let item of userListItem;let i = index" class="flex outline-1 mat-list-item" [class.active]="selectedUserActive === item.applicationId"
+          (click)="viewSurvey(item)">
+          User {{i+1}}
+        </a>
+      </mat-nav-list>
+
+    </div>
+
+  </div>
+  <div class="right-content-box">
+    <div class="back-icon-div">
+      <a class="mat-subheading-2" [routerLink]="'/author/surveys'" tabindex="0" aria-disabled="false">
+        <span class="flex">
+          <mat-icon class="mat-icon notranslate material-icons ws-mat-primary-text mr-2" role="img" aria-hidden="true">
+            arrow_back
+          </mat-icon>
+          Back
+        </span>
+      </a>
+    </div>
+
+    <div class="content-inner-box flex flex-1 flex-col">
+      <div class="content-card flex flex-1 flex-col">
+        <section #fullScreenContainer class="survey-container" *ngIf="surveyViewData">
+          <lib-micro-survey class="course-survey" [apiData]="apiData" [isReadOnly]="isReadOnly" [surveyId]="surveyViewData.formId"
+            [applicationId]="surveyViewData.applicationId" [courseId]="surveyViewData.dataObject.courseId"></lib-micro-survey>
+        </section>
+        <!-- <div class="flex justify-between items-center flex-row">
+          <h1 class="mat-h1 margin-remove-bottom">Competency survey 2</h1>
+          <p class="mat-body-2">12-05-2022</p>
+        </div>
+
+        <span class="margin-remove-bottom mat-body-1 margin-top-m flex">Logical Thinking - Problems & Answers</span>
+        <p class="mat-subheading-1 margin-top-xl">How would you rate your overall, experience with Miriam?</p> -->
+      </div>
+
+    </div>
+  </div>
+</div>

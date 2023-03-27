@@ -1,0 +1,43 @@
+@import "ws-mixins";
+@import "ws-common";
+
+.box {
+  margin-top: #{$size-xs / 2};
+  margin-bottom: #{$size-xs / 2};
+}
+.no-shadow {
+  box-shadow: none !important;
+}
+.text-white {
+  color: white !important;
+}
+.font-bold {
+  font-weight: 600 !important;
+}
+// .box > * {
+//   flex: 1 1 400px;
+
+//   @include breakpoint-s {
+//     flex: 1 1 350px;
+//   }
+//   @include breakpoint-xs {
+//     flex: 1 1 100%;
+//   }
+// }
+
+.a {
+  flex: 0 0 150px;
+}
+.b-c {
+  flex-direction: column;
+  display: flex;
+  flex-grow: 1;
+  margin-top: $size-xs;
+  margin-bottom: $size-xs;
+}
+.min-w {
+  min-width: 49%;
+}
+.pad-left-0 {
+  padding-left: 0 !important;
+}

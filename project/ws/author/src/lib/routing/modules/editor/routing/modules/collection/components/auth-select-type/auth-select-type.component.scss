@@ -1,0 +1,151 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+@import 'ws-common';
+
+.select-card-common {
+  width: 170px;
+  height: 170px;
+}
+
+.tag_box {
+  width: auto;
+  border-radius: 18px 18px;
+  padding: 5px 10px;
+  background-color: #F5F5F5;
+  margin-left: auto;
+
+  p {
+    font: 400 10px/12px Lato;
+  }
+}
+
+.new_cbp_left {
+  width: 70%;
+}
+
+.inner_textbox {
+
+  .main_heading_text {
+    vertical-align: middle;
+
+    .mat-icon {
+      vertical-align: middle;
+    }
+  }
+}
+
+.new_cbp_right {
+  width: 28%;
+
+  a.more_info_link {
+    margin-top: 1rem;
+
+    mat-icon {
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+  }
+
+  .cbp_right_img_block {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 1.5rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.module_main_box {
+  width: 100%;
+
+  .main_info_card {
+    width: 100%;
+
+    .form_item {
+      width: 48%;
+
+      .mat-form-field {
+        width: 100%;
+
+      }
+    }
+
+    button.save_btn {
+      outline: 0;
+      font-weight: 700;
+      border: 1px solid #0074B6 !important;
+      border-radius: .25rem;
+      background: #fff;
+      color: #364f5d;
+      padding: 0px 20px;
+      font-size: .75rem;
+      display: flex;
+      align-items: center;
+      height: 48px;
+      line-height: 48px;
+      margin: 0;
+      cursor: pointer;
+    }
+
+  }
+
+}
+
+.resource_main_section {
+  .main_card_box {
+    width: 100%;
+
+    .inner_main_box {
+      width: 100%;
+
+      .new_cbp_left {
+        width: 75%;
+
+        .inner_textbox {
+          text-align: center;
+
+          .mat-icon {
+            font-size: 32px;
+          }
+        }
+      }
+
+      .new_cbp_right {
+        width: 25%;
+
+        .cbp_right_img_block {
+          height: 100%;
+          width: 100%;
+          margin-top: 10px;
+        }
+      }
+    }
+
+  }
+}
+
+.itm-center {
+  align-items: center;
+  padding: $size-m;
+}
+
+.disable {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: none;
+}
+
+.rememberThisDiv {
+  border: 1px solid #00000026;
+  box-shadow: none !important;
+  cursor: pointer;
+  span {
+    left: 45px;
+    position: absolute;
+    top: 17px;
+  }
+}

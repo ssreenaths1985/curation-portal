@@ -1,0 +1,92 @@
+<mat-card class="box">
+  <!-- <mat-card-header> -->
+  <mat-card-title>
+    <span>Select learners to invite</span>
+  </mat-card-title>
+  <mat-card-subtitle>
+    <span>Please search and select </span>
+  </mat-card-subtitle>
+  <!-- </mat-card-header> -->
+  <mat-card-content class="mobile-break">
+    <div class="flex flex-1 flex-column">
+      <div class="flex flex-1">
+        <div class="card-contan">
+          <div class="mobile-break">
+            <span class="mat-subheading-2 margin-0" i18n="Title label|Label which explains the user to enter title">
+              Search Here
+            </span>
+            <mat-form-field appearance="outline" class="margin-top-xs">
+              <mat-icon matSuffix (click)="onEnterkySearch(usrSerch)" class="cursor-pointer">search</mat-icon>
+              <input matInput #usrSerch maxlength="500" i18n-placeholder placeholder="Search Learners"
+                (keydown.enter)="onEnterkySearch($event)" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <span class="mat-subheading-1" *ngIf="usersList && usersList.length > 0">Users</span>
+      <div class="flex flex-1 flex-column" *ngIf="usersList">
+        <div class="flex flex-1 scroll">
+          <ng-container *ngIf="usersList && usersList.length > 0">
+            <div class="flex flex-1 flex-column">
+              <div class="flex flex-1 ws-mat-background-04 padding-m">
+                <span class="flex flex-1 mat-body-2 ws-mat-primary-text">Full Name</span>
+                <span class="flex flex-1 mat-body-2 ws-mat-primary-text">Email</span>
+                <span class="flex flex-1 mat-body-2 ws-mat-primary-text">organaisation Name</span>
+                <span class="flex flex-1 mat-body-2 ws-mat-primary-text">Mobile number</span>
+                <span class=" mat-body-2 ws-mat-primary-text">Invite</span>
+              </div>
+              <mat-list #users class="flex-1">
+                <mat-list-item *ngFor="let usr of (usersList | usrSerch:usrSerch.value)" (click)="selectUsr(usr)">
+                  <!-- [selected]="isSelected(usr)" [value]="usr" -->
+                  <div class="flex flex-1">
+                    <div class="flex flex-1 max-w flax-wrap">
+                      <span class="mat-body-2">{{usr?.name}}</span>
+                    </div>
+                    <div class="flex flex-1 max-w flax-wrap">
+                      <span class="mat-body-2">{{usr?.email}}</span>
+                    </div>
+                    <div class="flex flex-1 max-w flax-wrap">
+                      <span class="mat-body-2">{{usr?.orgName1}}</span>
+                    </div>
+                    <div class="flex flex-1 max-w flax-wrap">
+                      <span class="mat-body-2">{{usr?.mobile || 'NA'}}</span>
+                    </div>
+                    <div class=" max-w flax-wrap">
+                      <mat-slide-toggle id="id-{{usr?.userId}}" #invited class="s-button"
+                        [checked]="checked(usr?.userId)" (change)="changed($event,usr)">
+                        <!-- {{checked(usr?.userId)?
+                        'Invited': 'Invite'}} -->
+                      </mat-slide-toggle>
+                    </div>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!(usersList && usersList.length > 0)">
+            <span class="flex flex-1 center">No Users Found!</span>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="flex flex-1 flex-row-reverse margin-top-xs margin-right-xs">
+      <div class="block">
+        <button mat-button class="text-white ws-mat-primary-background" (click)="close()">
+          Done
+        </button>
+      </div>
+      <!-- <div class="block">
+        <button mat-button class="ws-mat-default-text" (click)="cancel()">
+          Cancel
+        </button>
+      </div> -->
+      <div class="flex flex-1">
+        <span class="mat-body-1"> {{invitedUsers?.length || 0 }} learners added</span>
+      </div>
+    </div>
+  </mat-card-actions>
+  <mat-card-footer></mat-card-footer>
+</mat-card>

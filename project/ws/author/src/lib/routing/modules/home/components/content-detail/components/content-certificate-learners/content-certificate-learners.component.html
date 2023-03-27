@@ -1,0 +1,61 @@
+<div class="flex">
+  <a class="pad-left-0" (click)="moveBack()" mat-button href="javascript:void(0)" role="link">
+    <mat-icon class="padding-xxs cursor-pointer">arrow_back</mat-icon>
+    <span id="go-back" i18n>Back</span>
+  </a>
+</div>
+<div class="b-c">
+  <ng-container *ngFor="let _l of getLearners">
+    <ng-container [ngTemplateOutlet]="learner" [ngTemplateOutletContext]="{widgetData:_l}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="getLearners.length <= 0">
+    <span class="flex flex-1 mat-title">No Learners yet!</span>
+  </ng-container>
+</div>
+
+<ng-template #learner let-widgetData='widgetData'>
+  <mat-card class="box flex flex-1 flex-row author-card ws-mat-background-04 no-shadow">
+    <div class="flex cursor-pointer" (click)="clicked($event,widgetData)">
+      <div class="flex">
+        <ws-widget-avatar-photo [name]="widgetData?.name" [photoUrl]="widgetData?.profileImage" [size]="'square-m'">
+        </ws-widget-avatar-photo>
+      </div>
+      <div class="flex flex-1 flex-column margin-left-xs">
+        <span class="mat-body-1">{{widgetData?.name}}</span>
+        <span class="mat-body-2">{{widgetData?.email}}</span>
+        <div class="flex flex-1 flex-wrap">
+          <span *ngIf="widgetData?.designation"
+            class="mat-body-2 ws-mat-black60-text">{{widgetData?.designation}}&nbsp;at&nbsp;
+          </span>
+          <span *ngIf="widgetData?.department" class="mat-body-2 ws-mat-black60-text">{{widgetData?.department}}.
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-1 flex-row-reverse margin-right-xs">
+      <div class="block">
+        <button (click)="issueCertificate(widgetData?.userId)"
+          *ngIf="widgetData.status === 2 && !isCertificateIssued(widgetData?.userId)" mat-button
+          class="text-white ws-mat-primary-background" i18n>
+          Issue certificate
+        </button>
+
+        <div *ngIf="widgetData.status !== 2 && !isCertificateIssued(widgetData?.userId)">
+          <mat-progress-spinner [color]="color" [mode]="mode" [value]="widgetData?.completionPercentage"
+            aria-label="Rating" mode="determinate">
+          </mat-progress-spinner>
+          <div style="position:relative; top: -40px; left: 15px;">
+            <span class="mat-body-1 font-bold"> {{ percentFix(widgetData?.completionPercentage || 0) }}%</span>
+          </div>
+        </div>
+        <button (click)="viewCert(widgetData)"
+          *ngIf="widgetData.status === 2 && isCertificateIssued(widgetData?.userId)" mat-button
+          class="ws-mat-accent-border-active ws-mat-default-text" i18n>
+          View certificate
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</ng-template>

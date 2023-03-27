@@ -1,0 +1,17 @@
+<div class="main-container">
+  <div class="back-icon-div padding-top-m padding-bottom-m padding-left-m">
+    <a class="mat-subheading-2" [routerLink]="'/author/surveys'" tabindex="0" aria-disabled="false">
+      <span class="flex">
+        <mat-icon class="mat-icon notranslate material-icons ws-mat-primary-text mr-2" role="img" aria-hidden="true">
+          arrow_back
+        </mat-icon>
+        Back
+      </span>
+    </a>
+  </div>
+  <div>
+    <section #fullScreenContainer class="survey-container">
+      <lib-micro-survey class="course-survey" [apiData]="apiData" [isReadOnly]="isReadOnly" [surveyId]="surveyId"></lib-micro-survey>
+    </section>
+  </div>
+</div>

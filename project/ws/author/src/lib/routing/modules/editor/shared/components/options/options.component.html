@@ -1,0 +1,151 @@
+<div class="buttons" *ngIf="!(isPublisher || isReviewer || isContentCreator)">
+  <!-- new-style-grid  -->
+  <div class="cursor-pointer disp" (click)="toggleSettingButtons()">
+    <button mat-button class="flex padding-remove ws-mat-auth-tool-option mat-app-background setting_btn">
+      <mat-icon *ngIf="showSettingButtons">close</mat-icon>
+      <mat-icon *ngIf="!showSettingButtons">menu</mat-icon>
+      <span class="mat-subheading-2 margin-left-xs">Options</span>
+    </button>
+    <!-- <p class="mat-h5 margin-remove button-text padding-remove-top" *ngIf="showSettingButtons">
+          Close
+        </p> -->
+  </div>
+  <ng-container *ngIf="showSettingButtons">
+    <div class="new-style-grid cursor-pointer ws-primary-background" *ngIf="getPreview()"
+      (click)="action.emit('preview')">
+      <button mat-icon-button
+        class="ws-primary-background mat-elevation-z5 small-button ws-mat-auth-tool-option margin-top-l mat-app-background settings">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">remove_red_eye</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text">
+        Preview
+      </p>
+    </div>
+    <div class="new-style-grid cursor-pointer ws-primary-background" (click)="action.emit('save')"
+      *ngIf="showButton('save')">
+      <button mat-icon-button
+        class="ws-primary-background mat-elevation-z5 small-button ws-mat-auth-tool-option margin-top-m mat-app-background settings">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">save</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text">
+        Save
+      </p>
+    </div>
+    <div class="new-style-grid cursor-pointer ws-primary-background"
+      (click)="action.emit('push'); isSubmitPressed = true" *ngIf="getAction() === 'sendForReview'">
+      <button mat-icon-button
+        class="ws-primary-background mat-elevation-z5 small-button ws-mat-auth-tool-option margin-top-m mat-app-background settings">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">rate_review</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text">
+        Send For Review
+      </p>
+    </div>
+    <div class="new-style-grid cursor-pointer ws-primary-background"
+      (click)="action.emit('push'); isSubmitPressed = true" *ngIf="getAction() === 'review'">
+      <button mat-icon-button
+        class="ws-primary-background mat-elevation-z5 small-button ws-mat-auth-tool-option margin-top-m mat-app-background settings">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">rate_review</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text">
+        Review
+      </p>
+    </div>
+    <div class="new-style-grid cursor-pointer ws-primary-background padding-bottom-s"
+      (click)="action.emit('push'); isSubmitPressed = true" *ngIf="showButton('publisher')">
+      <button mat-icon-button
+        class="ws-primary-background mat-elevation-z5 small-button ws-mat-auth-tool-option margin-top-m mat-app-background settings">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">rate_review</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text">
+        Publish
+      </p>
+    </div>
+    <div class="new-style-grid cursor-pointer ws-primary-background padding-bottom-s"
+      (click)="action.emit('push'); isSubmitPressed = true" *ngIf="showButton('reviewer')">
+      <button mat-icon-button
+        class="ws-primary-background mat-elevation-z5 small-button ws-mat-auth-tool-option margin-top-m mat-app-background settings">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">rate_review</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text">
+        Send For Publish
+      </p>
+    </div>
+    <!-- <div class="new-style-grid cursor-pointer ws-primary-background" (click)="action.emit('unpublish');"
+      *ngIf="getAction() === 'unpublish'">
+      <button mat-icon-button
+        class="ws-primary-background mat-elevation-z5 small-button ws-mat-auth-tool-option margin-top-m mat-app-background settings">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">reply</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text">
+        Unpublish content
+      </p>
+    </div>
+    <div class="new-style-grid cursor-pointer ws-primary-background" (click)="action.emit('moveToDraft');"
+      *ngIf="getAction() === 'moveToDraft'">
+      <button mat-icon-button
+        class="ws-primary-background mat-elevation-z5 small-button ws-mat-auth-tool-option margin-top-m mat-app-background settings">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">reply</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text">
+        Recall content to draft
+      </p>
+    </div> -->
+    <!-- ******** Delete is commented until we get delete API for sunbird plz dont remove the code ***** -->
+    <!-- <div *ngIf="canDelete()" class="new-style-grid cursor-pointer ws-primary-background"
+      (click)="action.emit('delete')">
+      <button mat-icon-button
+        class="ws-primary-background mat-elevation-z5 small-button ws-mat-auth-tool-option margin-top-m mat-app-background settings">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">delete</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text" i18n>
+        Delete
+      </p>
+    </div> -->
+    <!-- <div class="new-style-grid cursor-pointer ws-primary-background" (click)="action.emit('fulls')">
+      <button mat-icon-button
+        class="ws-primary-background mat-elevation-z5 small-button ws-mat-auth-tool-option margin-top-m mat-app-background settings">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">fullscreen</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text">
+        Fullscreen
+      </p>
+    </div> -->
+    <!-- <button mat-icon-button class=" mat-elevation-z5 small-button ws-mat-auth-tool-option  margin-top-m mat-app-background settings">
+              <mat-icon class="text-white small-icon ws-mat-primary-text">crop_portrait</mat-icon>
+            </button> -->
+  </ng-container>
+</div>
+
+<div class="flex flex-start" *ngIf="isPublisher || isReviewer || isContentCreator">
+  <button mat-raised-button type="button" class="text-white ws-mat-primary-background"
+    (click)="action.emit('acceptConent')" *ngIf="isReviewer || isContentCreator">
+    <span class="mat-subheading-2 padding-xs custom-line-h text-white" style="vertical-align: unset;" i18n>
+      {{(isReviewer) ? 'Send for publish' : (isContentCreator) ? 'Send for review' : ''}}
+    </span>
+  </button>
+  <button mat-raised-button type="button" class="text-white ws-mat-primary-background"
+    (click)="action.emit('publishConent')" *ngIf="isPublisher">
+    <span class="mat-subheading-2 padding-xs custom-line-h text-white" style="vertical-align: unset;" i18n>
+      {{'Publish Content'}}
+    </span>
+  </button>
+  <button mat-raised-button type="button" class="ws-mat-accent-text ws-mat-accent-border-active margin-left-s"
+    (click)="action.emit('showReviewComment')" *ngIf="isRejectComment">
+    <span class="mat-subheading-2 padding-xs custom-line-h" style="vertical-align: unset;" i18n>
+      View review comment
+    </span>
+  </button>
+  <button mat-raised-button type="button" class="ws-mat-accent-text ws-mat-accent-border-active margin-left-s"
+    (click)="action.emit('rejectContent')" *ngIf="!isContentCreator">
+    <span class="mat-subheading-2 padding-xs custom-line-h" style="vertical-align: unset;" i18n>
+      Reject content
+    </span>
+  </button>
+  <button mat-raised-button type="button" class="ws-mat-accent-text ws-mat-accent-border-active margin-left-s"
+    (click)="action.emit('save')" *ngIf="isContentCreator">
+    <span class="mat-subheading-2 padding-xs custom-line-h" style="vertical-align: unset;" i18n>
+      Save
+    </span>
+  </button>
+</div>

@@ -1,0 +1,35 @@
+<div class="flex flex-1 flex-column">
+  <div class="flex flex-1">
+    <span class="mat-subheading-1 margin-top-m  margin-bottom-m">Batches</span>
+    <div class="flex flex-1 flex-row-reverse margin-right-xs">
+      <div class="block">
+        <button mat-button class="text-white ws-mat-primary-background" *ngIf="isAllowed"
+          (click)="createNewBatch()">Create new</button>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-1 flex-wrap">
+    <ng-container *ngIf="BATCH_LIST?.length > 0">
+      <ng-container *ngFor="let batchData of getBatchList">
+        <ws-auth-content-batch [batch]="batchData"></ws-auth-content-batch>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="!(BATCH_LIST?.length > 0)">
+      <span class="mat-title margin-top-m  margin-bottom-m">No Batches Found!</span>
+    </ng-container>
+  </div>
+</div>
+<ng-container *ngIf="getArcBatchList.length > 0">
+  <div class="flex flex-1 flex-column">
+    <div class="flex flex-1">
+      <span class="mat-subheading-1 margin-top-m  margin-bottom-m">Archived batches</span>
+    </div>
+    <div class="flex flex-1 flex-wrap">
+      <ng-container *ngIf="ARCH_BATCH_LIST?.length > 0">
+        <ng-container *ngFor="let batchData of getArcBatchList">
+          <ws-auth-content-batch [batch]="batchData"></ws-auth-content-batch>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,113 @@
+<div class="nav-container" autosize name="auth-tool-detail">
+  <div class="flex flex-1">
+    <div class="flex flex-4 flex-column padding-right-s">
+      <div class="flex flex-1">
+        <div class="flex margin-top-s">
+          <img *ngIf="content?.posterImage" mat-card-image class="content-image margin-top-s"
+            [src]="getUrl(content?.posterImage)" alt="Content Image" (error)="changeToDefaultImg($event)" />
+          <img *ngIf="content?.appIcon && !content?.posterImage" mat-card-image class="content-image-icon margin-top-s"
+            [src]="getUrl(content?.appIcon)" alt="Content Image" (error)="changeToDefaultImg($event)" />
+        </div>
+        <div class="flex flex-column ml-5 mt-5 flex-1">
+          <span class="mat-headline margin-bottom-xs">{{content?.name}}</span>
+          <div class="flex flex-1 creator-img">
+            <div class="flex flex-05 ws-mat-accent-border border-radius-16">
+              <span class="m-custom">
+                <mat-icon *ngIf="!!content" class="custom-icon align-bottom pad-b-2" [ngClass]="getClassName">
+                  {{getContentImage}}
+                </mat-icon>
+                <span class="text-uppercase">{{content?.primaryCategory}}</span>
+              </span>
+            </div>
+            <div [style.background-image]="'url(' + (content?.creatorLogo || defaultLogo) + ')'"
+              class="flex flex-05 ws-mat-accent-border border-radius-16 backg">
+              <!-- <img [src]="content?.creatorLogo" alt="provider" i18n /> -->
+            </div>
+            <div role="none" class="flex flex-1">&nbsp;</div>
+          </div>
+
+          <span class="mat-body-1 mt-5">{{content?.description}}
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-1 flex-column">
+        <span class="mat-title margin-top-m">Description</span>
+        <span class="mat-body-1" [innerHTML]="content?.instructions">
+        </span>
+      </div>
+      <div class="flex flex-1 flex-column mt-16">
+        <span class="mat-title">Admistrators and curators</span>
+        <div class="flex flex-1 flex-wrap margin-top-m">
+          <ng-container *ngFor="let _author of getAuthorsArray">
+            <ws-widget-author-card class="flex" [widgetData]="_author"></ws-widget-author-card>
+          </ng-container>
+        </div>
+      </div>
+      <ws-auth-content-rating [content]="content"></ws-auth-content-rating>
+      <ng-container [ngTemplateOutlet]="rreview">
+
+      </ng-container>
+    </div>
+    <div class="flex flex-1">
+      <ws-widget-at-glance *ngIf="content && tocStructure" [widgetData]="getGlanceData()"
+        (copyContentAction)="takeActionForCopyContent()"></ws-widget-at-glance>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #rreview>
+  <div class="flex flex-1 search margin-top-m margin-bottom-l">
+    <form class="flex flex-1" [formGroup]="searchForm">
+      <div class="flex flex-1 top_search_box">
+        <div class="flex-1 search_box_inner">
+          <div class="flex flex-1 flex-column margin-fix search search_box_main">
+            <mat-form-field appearance="outline" class="autocomplete-form search_form margin-right-s" color="primary">
+              <mat-icon matPrefix class="search-home flex items-center justify-center mr-2">search
+              </mat-icon>
+              <!-- <mat-label>Search</mat-label> -->
+              <input type="search" name="searchKey" #searchKey class="ml-2" i18-aria-label aria-label="Search"
+                formControlName="searchKey" i18n-placeholder="search" [placeholder]="'Search in reviews'" matInput />
+              <!-- (input)="updateQuery(searchKey.value)" -->
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="item_dropdown_box">
+          <div class="flex flex-1 flex-wrap section-input">
+            <div class="item">
+
+              <mat-form-field class="" appearance="outline">
+                <mat-select #sortBySelect formControlName="sortByControl" i18n-placeholder placeholder="Sort by">
+                  <mat-option [value]="'topReviews'" slected>Top reviews
+                  </mat-option>
+                  <mat-option [value]="'latestReviews'">Latest reviews</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="rating-comments" *ngIf="ratingReviews && ratingReviews.length > 0; else norreview">
+    <div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="150"
+      [infiniteScrollContainer]="'.rating-comments'" [fromRoot]="true" [scrollWindow]="false" (scrolled)="loadMore()">
+      <ng-container *ngFor="let c of ratingReviews|
+                              pipeFilterV3:{ 'firstName': searchKey.value, 'lastName': searchKey.value, 'review': searchKey.value } : false |
+                              slice:0:ratingViewCount; let i= index; let last = last">
+        <ws-widget-card-rating-comment [review]="c" (reply)="reply($event)" [creatorDetails]="configSvc.userProfile"
+          [contenDetails]="content">
+        </ws-widget-card-rating-comment>
+      </ng-container>
+    </div>
+    <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
+      <mat-spinner [diameter]="30"></mat-spinner>
+    </div>
+  </div>
+</ng-template>
+<ng-template #norreview>
+  <h4 class="w-full text-left ws-mat-black60-text ">
+    No reviews found!
+  </h4>
+</ng-template>

@@ -1,0 +1,28 @@
+@import 'ws-vars';
+@import 'ws-common';
+
+.page-title {
+  margin-bottom: $size-xl;
+}
+
+.container-balanced {
+  padding: $size-m;
+  @extend %page-center;
+}
+
+.view-content {
+  width: 300px;
+}
+
+.img-view-content {
+  width: 190px;
+  margin: 0 auto;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.margin-x-auto {
+  margin: 0 auto;
+}

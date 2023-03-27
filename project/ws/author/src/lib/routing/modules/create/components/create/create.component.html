@@ -1,0 +1,209 @@
+<div *ngIf="!error && !currentContent">
+  <div class="cbp_main_box flex justify-between items-start m-6 my-10">
+    <div class="new_cbp_left">
+      <div class="top_card_container">
+        <div class="card-container flex">
+          <ng-container *ngFor="let createEntity of entity; let i = index">
+            <ws-auth-entity-card [entity]="createEntity" (step)="contentClicked($event)"
+              *ngIf="createEntity.available && createEntity.enabled"></ws-auth-entity-card>
+          </ng-container>
+        </div>
+      </div>
+      <div class="more_cbp_box">
+        <div class="card-container my-10">
+          <div>
+            <p class="mat-subheading-2 ">More CBPs</p>
+          </div>
+          <div class="flex">
+            <ng-container *ngFor="let createEntity of entity; let i = index">
+              <ws-auth-entity-card [entity]="createEntity" (step)="contentClicked($event)"
+                *ngIf="createEntity.available && !createEntity.enabled"></ws-auth-entity-card>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="new_cbp_right ">
+      <!-- <div class="flex justify-end">
+        <a class="more_info_link ws-mat-black60-text">
+          <p class="mat-subheading-2">
+            <mat-icon>error_outline</mat-icon> Info
+          </p>
+        </a>
+      </div> -->
+      <div class="cbp_right_img_block">
+        <img src="/assets/images/banners/portal_1.svg">
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 *ngIf="error" class="mat-error margin-top-m text-center" i18n>
+  Unable to load the page. Reload or try again after some time.
+</h2>
+
+<div class="inner_info_main_section" *ngIf="currentContent">
+  <form [formGroup]="createCourseForm" (ngSubmit)="!createCourseForm.invalid ? createContent(): null">
+    <div class="card-container px-6 my-10">
+      <mat-card
+        *ngIf="currentContent.details && (currentContent.details?.title || currentContent.details?.subTitle || (currentContent.details?.points || []).length >0 )"
+        class="mat-elevation-z2 main_info_card margin-bottom-m">
+        <div class="flex flex-col justify-start">
+          <mat-card-title *ngIf="currentContent.details?.title">
+            <p class="mat-h2 margin-remove main_heading_text">{{currentContent.details?.title}}</p>
+          </mat-card-title>
+          <mat-card-content>
+            <p class="mat-body-2" *ngIf="currentContent.details?.subTitle">{{currentContent.details?.subTitle}}</p>
+            <ng-container *ngIf="currentContent.details?.points && currentContent.details?.points?.length>0">
+              <p class="mat-body-1" *ngFor="let point of currentContent.details?.points">
+                <mat-icon class="mat-icon ws-mat-black60-text">{{point.icon}}</mat-icon>
+                {{point.text}}
+              </p>
+            </ng-container>
+
+            <!-- <p class="mat-body-1">
+              <mat-icon class="mat-icon ws-mat-black60-text">error_outline</mat-icon> Please provide hi-res images
+              whenever possible.
+            </p>
+            <p class="mat-body-1">
+              <mat-icon class="mat-icon ws-mat-black60-text">error_outline</mat-icon> Whenever possible please provide
+              an
+              introduction and conclusion for the course.
+            </p> -->
+          </mat-card-content>
+        </div>
+      </mat-card>
+      <mat-card class="mat-elevation-z2  main_info_card">
+        <div class="flex flex-col justify-start">
+          <mat-card-title>
+            <p class="mat-h2 margin-remove main_heading_text">
+              {{currentContent.details?.createTitle || "Content Information"}}
+            </p>
+          </mat-card-title>
+          <mat-card-content>
+            <div class="flex flex-row iteams-center justify-between">
+              <div class="form_item">
+                <p>
+                  <span class="mat-h3 flex margin-remove">Title</span>
+                  <mat-form-field appearance="outline" class="margin-top-xs" [ngClass]="{ 'mat-form-field-invalid': (createCourseForm.controls['name'].hasError('minlength')
+                  && !createCourseForm.controls['name'].hasError('required')) }">
+                    <input matInput #name formControlName="name" maxlength="70" i18n-placeholder placeholder="Type here"
+                      [required]="'true'">
+                    <mat-error *ngIf="createCourseForm.controls['name'].hasError('required')"
+                      i18n="name Error|Explains name is required">
+                      Title is mandatory
+                    </mat-error>
+                    <mat-error
+                      *ngIf="createCourseForm.controls['name'].hasError('minlength') && !createCourseForm.controls['name'].errors?.pattern"
+                      i18n="name Error|Explains name is required">
+                      Minimum characters left to create {{10 - createCourseForm.controls['name'].value.length}}
+                    </mat-error>
+                    <mat-error *ngIf="createCourseForm.controls['name'].errors?.pattern"
+                      i18n="name Error|Explains name is required">
+                      Only {{specialCharList}} characters are supported
+                    </mat-error>
+
+                  </mat-form-field>
+                </p>
+              </div>
+              <div class="form_item">
+                <p>
+                  <span class="mat-h3 flex margin-remove">Subtitle</span>
+                  <mat-form-field appearance="outline" class="margin-top-xs" [ngClass]="{ 'mat-form-field-invalid': (createCourseForm.controls['purpose'].hasError('minlength')
+                                    && !createCourseForm.controls['purpose'].hasError('required')) }">
+                    <input matInput #name formControlName="purpose" maxlength="500" i18n-placeholder
+                      placeholder="Type here" [required]="'true'">
+                    <mat-error *ngIf="createCourseForm.controls['purpose'].hasError('required')"
+                      i18n="purpose Error|Explains purpose is required">
+                      Subtitle is mandatory
+                    </mat-error>
+                    <mat-error *ngIf="createCourseForm.controls['purpose'].hasError('minlength')"
+                      i18n="purpose Error|Explains purpose is required">
+                      Minimum characters left to create {{10 - createCourseForm.controls['purpose'].value.length}}
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-start mt-5">
+              <button mat-raised-button type="submit" class="text-white ws-mat-primary-background">
+                <span class="mat-subheading-2 padding-xs" style="vertical-align: unset;" i18n>Save
+                </span>
+              </button>
+              <button mat-button type="button" class="margin-left-s ws-mat-accent-border" (click)="cancel()">
+                <span class="mat-subheading-2 padding-xs" style="vertical-align: unset;" i18n>Cancel
+                </span>
+              </button>
+            </div>
+          </mat-card-content>
+        </div>
+      </mat-card>
+    </div>
+  </form>
+</div>
+
+<!-- <ng-container *ngIf="currentContent">
+  <form [formGroup]="createCourseForm" (ngSubmit)="!createCourseForm.invalid ? createContent(): null">
+    <mat-card class="ws-mat-accent-border flex-1">
+      <mat-card-header>
+        <mat-card-title>
+          <span class="mat-title">{{currentContent?.name}}</span>
+          {{createCourseForm.isValid}}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="margin-top-s margin-left-m">
+          <div class="margin-top-xs flex flex-column ">
+            <span class="mat-subheading-2 margin-0" i18n="Title label|Label which explains the user to enter title"
+              [ngClass]="{ required: true }">
+              Title
+            </span>
+            <mat-form-field appearance="outline" class="margin-top-xs" [ngClass]="{ 'mat-form-field-invalid': (createCourseForm.controls['name'].hasError('minlength')
+                               &&   !createCourseForm.controls['name'].hasError('required')) }">
+              <input matInput #name formControlName="name" maxlength="500" i18n-placeholder placeholder="Type here"
+                [required]="'true'" />
+              <!-- <mat-hint align="end">{{ name.value.length }} / 500</mat-hint>
+              <mat-error *ngIf="!createCourseForm.controls['name'].hasError('required')"
+                i18n="name Error|Explains name is required">
+                Title is mandatory
+              </mat-error>
+              <mat-error *ngIf="createCourseForm.controls['name'].hasError('minlength')"
+                i18n="name Error|Explains name is required">
+                Minimum 10 Characters requires to create
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="flex flex-start margin-top-l margin-bottom-s margin-left-s">
+          <button [disabled]="createCourseForm.invalid" mat-raised-button type="submit"
+            class="text-white ws-mat-primary-background margin-left-s">
+            <span class="mat-subheading-2 padding-xs" style="vertical-align: unset;" i18n>Save
+            </span>
+          </button>
+          <!-- <button mat-button type="button" class="margin-left-s ws-mat-accent-border">
+            <mat-icon>delete</mat-icon>
+            <span class="mat-subheading-2 padding-xs" style="vertical-align: unset;" i18n>Delete
+            </span>
+          </button>
+          <button mat-button type="button" class="margin-left-s ws-mat-accent-border" (click)="cancel()">
+            <span class="mat-subheading-2 padding-xs" style="vertical-align: unset;" i18n>Cancel
+            </span>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</ng-container> -->
+<mat-menu #sortLang="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item class="flex flex-between ws-mat-default-text" *ngFor="let lang of allLanguages"
+      (click)="setCurrentLanguage(lang.srclang,lang.label)">
+      <span class="flex items-center w-full">
+        <span>{{ lang.label | uppercase }}</span>
+        <mat-icon class="ml-2" *ngIf="lang.srclang === language">check</mat-icon>
+      </span>
+    </button>
+  </ng-template>
+</mat-menu>

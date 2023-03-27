@@ -1,0 +1,91 @@
+<div class="container-balanced mat-app-background">
+  <form [formGroup]="contentForm">
+    <mat-card class="ws-mat-accent-border border-radius-2 box">
+      <mat-card-title class="m-auto">
+        <span id="enroleType" class="mat-subheading-1">Enrolment</span>
+      </mat-card-title>
+      <mat-card-content class="margin-top-s mobile-break">
+        <div class="card-contan margin-top-m">
+          <div class="mobile-break flex-1 margin-top-l">
+            <label>
+              <div class="flex flex-middle" [ngClass]="{ required: true }">
+                <span i18n class="mat-subheading-2 margin-0">Who can enroll?</span>
+              </div>
+              <span i18 class="mat-body-2">At magnum periculum adiit in quo pertineant non intellegamus.</span>
+            </label>
+
+            <div [ngClass]="{ 'mat-form-field-invalid': showError('enroleType') }">
+              <ng-container [formGroup]="contentForm">
+                <mat-radio-group name="enroleType" class="flex tgl-group margin-top-s" aria-label="Select an option"
+                  formControlName="enroleType">
+                  <mat-radio-button [name]="'radio-' + _enroleType"
+                    class="flex flex-row itm-center ws-mat-accent-border margin-right-s"
+                    *ngFor="let _enroleType of enroleTypeList" [value]="_enroleType">
+                    <span class="mat-body-2">{{_enroleType}}</span>
+                  </mat-radio-button>
+                </mat-radio-group>
+              </ng-container>
+
+              <mat-error *ngIf="showError('enroleType')" i18n>Enrollment type is mandatory
+              </mat-error>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="margin-top-xl ws-mat-accent-border border-radius-2 box">
+      <mat-card-title class="m-auto">
+        <span id="basic-information" class="mat-subheading-1">Score criteria</span>
+      </mat-card-title>
+      <mat-card-content class="margin-top-m mobile-break">
+        <label>
+          <div class="flex flex-middle" [ngClass]="{ required: true }">
+            <span i18n class="mat-subheading-2 margin-0">Score settings</span>
+          </div>
+          <span i18 class="mat-body-2">
+            At magnum periculum adiit in quo pertineant non intellegamus.
+          </span>
+        </label>
+        <div class="card-contan margin-top-m">
+          <div class="mobile-break margin-top-xs">
+            <span class="mat-subheading-2 margin-0" i18n="Title label|Label which explains the user to enter title">
+              Maximum score
+            </span>
+            <mat-form-field appearance="outline" class="margin-top-xs"
+              [ngClass]="{ 'mat-form-field-invalid': showError('maxScore') }">
+              <input matInput #maxScore formControlName="maxScore" maxlength="500" i18n-placeholder
+                placeholder="Type here" [required]="true" />
+              <!-- <mat-hint align="end">{{ name.value.length }} / 500</mat-hint> -->
+              <mat-error *ngIf="showError('maxScore')" i18n="Name Error|Explains name is required">
+                Maximum score is mandatory
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="card-contan margin-top-m">
+          <div class="mobile-break margin-top-xs">
+            <span class="mat-subheading-2 margin-0"
+              i18n="Title label|Label which explains the user to enter passCriteria">
+              Pass criteria
+            </span>
+            <mat-form-field appearance="outline" class="margin-top-xs"
+              [ngClass]="{ 'mat-form-field-invalid': showError('passCriteria') }">
+              <input matInput #passCriteria formControlName="passCriteria" maxlength="500" i18n-placeholder
+                placeholder="Type here" [required]="true" />
+              <!-- <mat-hint align="end">{{ name.value.length }} / 500</mat-hint> -->
+              <mat-error *ngIf="showError('passCriteria')" i18n="passCriteria Error|Explains passCriteria is required">
+                Pass criteria is mandatory
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="block">
+          <button mat-button class="text-white ws-mat-primary-background" *ngIf="isAllowed"
+            (click)="create()">Create</button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

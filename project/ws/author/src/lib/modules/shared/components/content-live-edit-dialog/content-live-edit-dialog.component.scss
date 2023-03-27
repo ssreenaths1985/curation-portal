@@ -1,0 +1,20 @@
+button {
+  margin-left: 5px;
+}
+
+button.save_btn {
+      outline: 0;
+      font-weight: 700;
+      border: 1px solid #0074B6 !important;
+      border-radius: .25rem;
+      background: #fff;
+      color: #364f5d;
+      padding: 0px 20px;
+      font-size: .75rem;
+      display: flex;
+      align-items: center;
+      height: 48px;
+      line-height: 48px;
+      margin: 0;
+      cursor: pointer;
+    }

@@ -1,0 +1,23 @@
+<!-- <div class="container-balanced fix-ww"> -->
+<mat-sidenav-container class="nav-container" autosize name="auth-tool-exp">
+  <mat-sidenav [mode]="mode$ | async" [(opened)]="sideNavBarOpenedMain" class="border-0" autoFocus="false">
+    <div class="contain">
+      <ng-container [wsResolverWidget]="leftmenues"></ng-container>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content class="nav-container">
+    <div *ngIf="screenSizeIsLtMedium">
+      <button type="button" mat-icon-button (click)="sideNavBarOpenedMain = !sideNavBarOpenedMain"
+        id="ws-auth-root-home-btn-menu" name="ws-auth-root-home-btn-menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <!-- <mat-sidenav-container > -->
+    <ws-auth-add-users-form-meta *ngIf="viewContentData === 'addNewUser'" [selectedAction]="actionItem"
+      (data)="takeAction($event)">
+    </ws-auth-add-users-form-meta>
+    <ws-auth-list-of-users *ngIf="viewContentData === 'listOfUsers'" (data)="takeAction($event)">
+    </ws-auth-list-of-users>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<!-- </div> -->

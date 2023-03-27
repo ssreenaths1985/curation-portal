@@ -1,0 +1,25 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.width-full {
+  width: 100%;
+}
+
+.inner-card {
+  max-height: 300px;
+  height: 300px;
+  overflow-y: auto;
+}
+
+.table-header {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.action-btn {
+  justify-content: space-between;
+}
+
+.text-white {
+  color: white !important;
+}

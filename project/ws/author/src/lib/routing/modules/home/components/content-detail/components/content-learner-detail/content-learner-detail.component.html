@@ -1,0 +1,30 @@
+<div class="profile-container">
+  <div class="flex flex-1">
+    <a mat-buttom class="flex" href="javascript:void(0)" (click)="moveBack()" role="link">
+      <mat-icon class="m-auto padding-xxs">arrow_back</mat-icon>
+      <span id="basic-information" class="mat-button ws-mat-black60-text padding-left-0" i18n>Back</span>
+    </a>
+  </div>
+  <div class="flex flex-1 flex-column margin-top-m">
+    <mat-card class="box ws-mat-accent-border">
+      <div class="user-avatar ws-mat-primary-lite-background-on-day">
+        <!-- <ws-widget-user-image class="user-image" [userId]="getLearner?.userId" [email]="getLearner?.email"
+          [imageType]="'rounded'">
+        </ws-widget-user-image> -->
+        <ws-widget-avatar-photo *ngIf="getLearner?.name" class="user-image" [photoUrl]="getLearner?.profileImage"
+          [size]="'square-m'" [name]="getLearner?.name"></ws-widget-avatar-photo>
+        <div class="user-name">
+          <h2 class="pl-4 sm:pl-0">{{ getLearner?.name }}</h2>
+          <span class="mat-body-2 margin-zero pl-4 sm:pl-0">{{ getLearner?.department }}</span>
+        </div>
+      </div>
+      <span class="mat-subheading-2">Performance report</span>
+    </mat-card>
+    <mat-card class="box margin-top-xs ws-mat-accent-border">
+      <span class="mat-subheading-1">Certificates</span>
+    </mat-card>
+    <mat-card class="box margin-top-xs ws-mat-accent-border">
+      <span class="mat-subheading-1">Discussions</span>
+    </mat-card>
+  </div>
+</div>

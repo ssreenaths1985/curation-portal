@@ -1,0 +1,9 @@
+<div class="b-c box">
+  <ng-container *ngFor="let _l of getLearners">
+    <ws-widget-author-card [widgetData]="_l" (clicked)="clicked($event,_l)">
+    </ws-widget-author-card>
+  </ng-container>
+  <ng-container *ngIf="getLearners.length <= 0">
+    <span class="flex flex-1 mat-title">No Learners yet!</span>
+  </ng-container>
+</div>

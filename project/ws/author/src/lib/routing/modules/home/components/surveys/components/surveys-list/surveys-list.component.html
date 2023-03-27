@@ -1,0 +1,238 @@
+<div class="margin-m">
+  <div class="flex flex-wrapped margin-top-xs margin-left-m">
+    <span class="flex mat-title margin-top-l">Survey</span>
+  </div>
+  <div class="flex flex-wrapped margin-top-xs margin-left-m">
+    <div class="flex items-center search border border-solid search-border">
+      <div class="w-full pl-2">
+        <mat-form-field class="w-full" appearance="none" [floatLabel]="'never'">
+          <mat-icon matPrefix class="m-auto searchinput flex padding-top-xs padding-right-xs">search</mat-icon>
+          <input type="search" matInput #searchInput name="searchBox" placeholder="Search"
+            i18n-placeholder="Search survey" i18-aria-label aria-label="Query" autocomplete="off" class="custom-search"
+            [(ngModel)]="searchValue" (ngModelChange)="filterData()" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex flex-1 flex-row-reverse margin-right-m">
+      <div class="block">
+        <button mat-button class="text-white ws-mat-primary-background mat-raised-button mat-button-base"
+          (click)="createNewSurvey()">
+          Create survey
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-1 flex-column margin-m">
+    <table mat-table class="surveyTable" [dataSource]="tableDataSource" multiTemplateDataRows matSort
+      matSortActive="createdDate" matSortDirection="desc" matSortDisableClear>
+      <ng-container matColumnDef="surveyTitle">
+        <th mat-header-cell *matHeaderCellDef class="h-400-r-14-l survay_tab"> Survey title </th>
+        <td mat-cell *matCellDef="let element" class="color-87 survay_tab" (click)="$event.stopPropagation()">
+          {{element.title}} </td>
+      </ng-container>
+      <ng-container matColumnDef="createdDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="h-400-r-14-l date_tab"> Created date </th>
+        <td mat-cell *matCellDef="let element" class="color-87 date_tab" (click)="$event.stopPropagation()">
+          {{element.createdDate | date: "dd-MM-yyyy"}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="responses">
+        <th mat-header-cell *matHeaderCellDef class="h-400-r-14-l response_tab"> Responses </th>
+        <td mat-cell *matCellDef="let element" class="color-87 responses response_tab"
+          (click)="$event.stopPropagation()"> {{element.numberOfRecords}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="surveyLink">
+        <th mat-header-cell *matHeaderCellDef class="h-400-r-14-l"> Survey link </th>
+        <td mat-cell *matCellDef="let element" class="color-87" (click)="$event.stopPropagation()">
+          <span class="cursor-pointer" (click)="copyLink(element.id)">
+            Copy
+            <mat-icon class="ml-2 mat-icon2 mat-icon notranslate material-icons mat-icon-no-color">content_copy
+            </mat-icon>
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+          <button mat-icon-button [matMenuTriggerFor]="moreMenu" [matMenuTriggerData]="{'survey':element}">
+            <mat-icon>{{actionsMenu.rowIcon}}</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <a mat-icon-button class="cursor-pointer ws-mat-default-text mat-subheading-2 explore_link"
+            *ngIf="element.numberOfRecords >0"
+            (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation(); getAttachedCourses(element)">
+            <span *ngIf="expandedElement !== element">Expand <mat-icon
+                class="ml-5 mat-icon1 mat-icon notranslate material-icons mat-icon-no-color v-middle">
+                keyboard_arrow_down</mat-icon>
+            </span>
+            <span *ngIf="expandedElement === element">Collapse <mat-icon
+                class="ml-5 mat-icon1 mat-icon notranslate material-icons mat-icon-no-color v-middle">keyboard_arrow_up
+              </mat-icon>
+            </span>
+          </a>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div class="element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <table class="sub-table">
+              <tr class="text-left p-2">
+                <th class="sub-heading-text ws-mat-black60-text row-header">Course</th>
+                <th class="sub-heading-text ws-mat-black60-text row-header">Responses</th>
+                <th></th>
+              </tr>
+              <ng-container *ngFor="let course of attachedCourses | keyvalue">
+                <tr *ngIf="course.key !== 'undefined'">
+                  <td class="mat-subheading-2 row-header">{{course.key | pipeCourseName}}</td>
+                  <td class="mat-subheading-2 row-header">{{course.value}}</td>
+                  <td class="row-header">
+                    <a class="cursor-pointer ws-mat-default-text mat-subheading-2 explore_link"
+                      (click)="navigateToResponses(element.id, course.key)">
+                      View details
+                    </a>
+                  </td>
+                </tr>
+              </ng-container>
+            </table>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="ws-mat-background-04"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row new-row"
+        [ngClass]="{'ws-mat-background-04':expandedElement === row}"
+        (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"
+        [ngClass]="{'ws-mat-background-04':expandedElement === row}"></tr>
+    </table>
+    <ng-container *ngIf="tableDataSource && tableDataSource?.filteredData.length > 1">
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </ng-container>
+    <div class="text-center margin-m" *ngIf="tableDataSource && tableDataSource.filteredData.length < 1">
+      <img class="block mx-auto mb-3 padding-top-l" src="/assets/instances/eagle/app_logos/allocation_empty.svg"
+        alt="No surveys found">
+      <span class="block mat-subheading-2 mt-3">No surveys Found</span>
+    </div>
+
+    <!-- <table class="survey-table">
+      <tr class="text-left p-2 ws-mat-background-04">
+        <th class="mat-body-2 ws-mat-black60-text  row-header">Survey title</th>
+        <th class="mat-body-2 ws-mat-black60-text row-header">Created date</th>
+        <th class="mat-body-2 ws-mat-black60-text row-header">Responses</th>
+        <th class="mat-body-2 ws-mat-black60-text row-header">Survey link</th>
+        <th></th>
+        <th></th>
+      </tr>
+      <ng-container *ngIf="surveys && surveys.length > 0">
+        <ng-container
+          *ngFor="let survey of surveys | orderBy: 'createdDate': 'desc' | pipeFilterSearch: searchInput.value; let i = index">
+          <div [ngClass]="{'ws-mat-background-04':survey.expand}" class="table--div">
+            <tr>
+              <td class="mat-subheading-2 row-header">{{survey.title}}</td>
+              <td class="mat-subheading-2 row-header">{{survey.createdDate | date: "dd-MM-yyyy"}}</td>
+              <td class="mat-subheading-2 row-header">{{survey.numberOfRecords}}</td>
+              <td class="mat-subheading-2 row-header">
+                <span class="cursor-pointer" (click)="copyLink(survey.id)">
+                  Copy
+                  <mat-icon class="ml-2 mat-icon2 mat-icon notranslate material-icons mat-icon-no-color">content_copy
+                  </mat-icon>
+                </span>
+              </td>
+              <td class="mat-subheading-2 row-header">
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" [matMenuTriggerData]="{'survey':survey}">
+                  <mat-icon>{{actionsMenu.rowIcon}}</mat-icon>
+                </button>
+              </td>
+              <td class="mat-subheading-2 row-header">
+                <a class="cursor-pointer ws-mat-default-text mat-subheading-2 explore_link"
+                  (click)="getAttachedCourses(survey)" *ngIf="survey.numberOfRecords > 0">
+                  <ng-container *ngIf="!survey.expand">
+                    Expand
+                    <mat-icon class="ml-5 mat-icon1 mat-icon notranslate material-icons mat-icon-no-color v-middle">
+                      expand_more</mat-icon>
+                  </ng-container>
+                  <ng-container *ngIf="survey.expand">
+                    Collapse
+                    <mat-icon class="ml-5 mat-icon1 mat-icon notranslate material-icons mat-icon-no-color v-middle">
+                      expand_less</mat-icon>
+                  </ng-container>
+
+                </a>
+              </td>
+            </tr>
+
+            <tr *ngIf="survey.expand">
+              <td colspan="6">
+                <table class="sub-table">
+                  <tr class="text-left p-2">
+                    <th class="sub-heading-text ws-mat-black60-text row-header">Course</th>
+                    <th class="sub-heading-text ws-mat-black60-text row-header">Responses</th>
+                    <th></th>
+                  </tr>
+                  <ng-container *ngFor="let course of attachedCourses | keyvalue">
+
+                    <tr *ngIf="course.key !== 'undefined'">
+                      <td class="mat-subheading-2 row-header">{{course.key | pipeCourseName}}</td>
+                      <td class="mat-subheading-2 row-header">{{course.value}}</td>
+                      <td class="row-header">
+                        <!-- <a class="cursor-pointer ws-mat-default-text mat-subheading-2 explore_link" [routerLink]="'/author/surveys/'+survey.id+'/'+course.key">
+                        View details
+                        </a>
+                        <a class="cursor-pointer ws-mat-default-text mat-subheading-2 explore_link"
+                          (click)="navigateToResponses(survey.id, course.key)">
+                          View details
+                        </a>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </table>
+              </td>
+            </tr>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="surveys && surveys.length === 0">
+        <div class="table--div">
+          <tr>
+            <td colspan="6" class="text-center">
+              <img class="block mx-auto mb-3 padding-top-l" src="/assets/instances/eagle/app_logos/allocation_empty.svg"
+                alt="No CBPs found">
+              <span class="block mat-subheading-2 mt-3 padding-bottom-l">No surveys found</span>
+            </td>
+          </tr>
+        </div>
+      </ng-container>
+    </table> -->
+  </div>
+
+  <mat-menu #moreMenu="matMenu">
+    <ng-template matMenuContent let-survey="survey">
+      <!-- <ng-container *ngFor="let menu of widgetData.actionsMenu.menus">
+      <a mat-menu-item (click)="actionsClick.emit({'action':menu.action,data:survey})">
+        <mat-icon>{{menu.icon}}</mat-icon>
+        <span i18n>{{menu.name}}</span>
+      </a>
+    </ng-container> -->
+
+      <a *ngIf="survey && survey.numberOfRecords < 1" mat-menu-item (click)="takeAction('edit',survey)">
+        <mat-icon>edit</mat-icon>
+        <span i18n>Edit </span>
+      </a>
+      <a mat-menu-item (click)="takeAction('preview',survey)">
+        <mat-icon>remove_red_eye</mat-icon>
+        <span i18n>Preview </span>
+      </a>
+      <!-- Delete is commented until we get Delete API plz dont delete the code -->
+      <!-- <a *ngIf="showMenuItem('delete',survey)" mat-menu-item (click)="takeAction('delete',survey)">
+      <mat-icon>delete</mat-icon>
+      <span i18n>Delete </span>
+    </a> -->
+
+    </ng-template>
+  </mat-menu>
+</div>

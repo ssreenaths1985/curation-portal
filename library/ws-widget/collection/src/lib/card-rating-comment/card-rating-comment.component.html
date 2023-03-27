@@ -1,0 +1,84 @@
+<mat-card class="comments-card margin-bottom-m position-relative mat-card">
+    <mat-card-content>
+        <div class="card_inner_content flex">
+            <div class="margin-right-m">
+                <ng-container *ngIf="review?.firstName">
+                    <ws-widget-avatar-photo [name]="getFullName(review)" [size]="'m'" [photoUrl]="">
+                    </ws-widget-avatar-photo>
+                </ng-container>
+                <ng-container *ngIf="!review?.firstName">
+                    <ws-widget-avatar-photo [name]="review?.user_id" [size]="'m'" [photoUrl]="">
+                    </ws-widget-avatar-photo>
+                </ng-container>
+            </div>
+
+            <div class="flex-col align-left">
+                <div class="name margin-bottom-xs">
+                    <ng-container *ngIf="review?.firstName">
+                        {{getFullName(review)}}
+                    </ng-container>
+                    <ng-container *ngIf="!review?.firstName">
+                        {{review.user_id}}
+                    </ng-container>
+                </div>
+                <div class="flex items-center ">
+                    <span class="margin-right-xs ws-mat-orange-text mat-body-1"> {{review.rating}} </span>
+                    <mat-icon class="comments-rating mr-1 mat-icon material-icons ws-mat-black16-text"
+                        [ngClass]="{'ws-mat-orange-text': getRatingIconClass(rating, review.rating )}"
+                        *ngFor="let rating of [1, 2, 3, 4, 5]">
+                        {{ getRatingIcon(rating, review.rating) }}</mat-icon>
+                    <!--  <span i18n>from</span> -->
+                    <span class="margin-left-s  ws-mat-black60-text mat-body-1" *ngIf="review.date"> {{review.date |
+                        pipeRelativeTime}}
+                    </span>
+                    <span class="margin-left-s  ws-mat-black60-text mat-body-1" *ngIf="review.updatedon">
+                        {{review.updatedon |
+                        pipeRelativeTime}}
+                    </span>
+                </div>
+                <div class="margin-top-m mat-body-1">
+                    {{review.review}}
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <div *ngIf="!showReplyComment" class="flex flex-1 flex-end">
+            <span (click)="showReply()" class="cursor-pointer" matTooltip="reply" i18n-matTooltip>
+                <mat-icon>reply</mat-icon>
+            </span>
+        </div>
+        <ng-template *ngIf="showReplyBox" [ngTemplateOutlet]="replytemp"></ng-template>
+        <ng-container *ngIf="showReplyComment && !showReplyBox">
+            <mat-card class="comments-card ws-mat-background-04 margin-bottom-m position-relative mat-card">
+                <div class="flex flex-1">
+                    <span class="mat-subheading-1 flex flex-1">Reply:</span>
+                    <mat-icon class="cursor-pointer" *ngIf="showReplyComment" (click)="edit()">edit</mat-icon>
+                </div>
+                <div class="margin-top-m mat-body-1 flex-wrap">
+                    {{authorReply}}
+                </div>
+            </mat-card>
+        </ng-container>
+
+    </mat-card-actions>
+</mat-card>
+
+<ng-template #replytemp>
+    <form class="flex flex-1" [formGroup]="replyForm">
+        <div class="flex flex-1 flex-column">
+            <div class="flex flex-1">
+                <mat-form-field appearance="outline" class="flex-1 margin-right-s" color="primary">
+                    <input #replyText formControlName="replyText" name="replyText" matInput i18n-placeholder
+                        placeholder="Please type a reply and press send button" />
+                </mat-form-field>
+            </div>
+            <div class="flex flex-1 flex-row-reverse margin-s">
+                <a *ngIf="!sent" (click)="onClickSubmit()" class="flex cursor-pointer" mat-button>
+                    <mat-icon>send</mat-icon>
+                    <span i18n>Send</span>
+                </a>
+            </div>
+        </div>
+    </form>
+</ng-template>

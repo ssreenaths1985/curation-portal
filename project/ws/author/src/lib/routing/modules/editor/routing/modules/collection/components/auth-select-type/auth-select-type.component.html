@@ -1,0 +1,194 @@
+<mat-card class="rememberThisDiv m-6" (click)="showLiveEditDialog()"
+  *ngIf="selectedData === 'start' && isEditEnabled && showRememberThis">
+  <mat-card-title>
+    <mat-icon>info <span class="mat-subheading-1 margin-remove">Remember this!</span></mat-icon>
+  </mat-card-title>
+</mat-card>
+<div class="cbp_main_box flex justify-between items-start" *ngIf="selectedData === 'start' && isEditEnabled">
+  <!--====== new cbp left section =========== -->
+  <div class="new_cbp_left">
+
+    <!-- top container-->
+    <div class="top_card_container">
+      <div class="card-container flex p-6 my-10" *ngIf="avalibleType.length > 0">
+        <mat-card class="mat-elevation-z2 mr-6 select-card-common flex  items-center cursor-pointer"
+          *ngFor="let item of avalibleType" (click)="takeAction(item)">
+          <div class="flex flex-col justify-start inner_textbox">
+            <mat-card-title>
+              <p class="mat-subheading-1 margin-remove main_heading_text">
+                <mat-icon class="mat-icon">{{item.icon}}</mat-icon> {{(item.name === 'CourseUnit') ? 'Module' :
+                item.name}}
+              </p>
+            </mat-card-title>
+            <mat-card-content>
+              <p class="mat-small ws-mat-black60-text">{{item.description}}</p>
+            </mat-card-content>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="new_cbp_right ">
+    <div class="cbp_right_img_block">
+      <img src="/assets/images/banners/portal_1.svg">
+    </div>
+  </div>
+
+</div>
+
+
+<div class="module_main_box" *ngIf="selectedData === 'contentCreate'">
+  <div class="card-container p-6 my-10">
+    <mat-card class="mat-elevation-z2  main_info_card">
+      <div class="flex flex-col justify-start">
+        <mat-card-title class="flex justify-between items-center">
+          <p class="mat-h2 margin-remove main_heading_text">{{(selectedContentType.type === 'Module') ? 'Module' :
+            (selectedContentType.type === 'Resource') ? 'Resource' : ''}}</p>
+          <a class="cursor-pointer" (click)="selectedData = 'start'" *ngIf="parentType !== 'editModule'">
+            <span>
+              <mat-icon class="mat-icon ws-mat-black60-text">close</mat-icon>
+            </span>
+          </a>
+        </mat-card-title>
+        <mat-card-content>
+          <form [formGroup]="moduleForm" (ngSubmit)="!moduleForm.invalid ? checkAndSave(): null">
+            <div class="flex flex-row iteams-center justify-between">
+              <div class="form_item" [ngClass]="{disable: !isEditEnabled}">
+                <p>
+                  <span class="mat-h3 flex margin-remove" [ngClass]="{ required: true }">Title </span>
+                  <mat-form-field appearance="outline" class="margin-top-xs" [ngClass]="{ 'mat-form-field-invalid': (moduleForm.controls['name'].hasError('minlength')
+                                    && !moduleForm.controls['name'].hasError('required')) }">
+                    <input matInput #name formControlName="name" maxlength="70" i18n-placeholder placeholder="Type here"
+                      [required]="'true'">
+                    <mat-error *ngIf="moduleForm.controls['name'].hasError('required')"
+                      i18n="name Error|Explains name is required">
+                      Title is mandatory
+                    </mat-error>
+                    <mat-error
+                      *ngIf="moduleForm.controls['name'].hasError('minlength') && !moduleForm.controls['name'].errors?.pattern"
+                      i18n="name Error|Explains name is required">
+                      Minimum characters left to create {{10 - moduleForm.controls['name'].value.length}}
+                    </mat-error>
+                    <mat-error *ngIf="moduleForm.controls['name'].errors?.pattern"
+                      i18n="name Error|Explains name is required">
+                      Only {{specialCharList}} characters are supported
+                    </mat-error>
+
+                  </mat-form-field>
+                </p>
+              </div>
+              <div class="form_item" *ngIf="selectedContentType.type === 'Module'"
+                [ngClass]="{disable: !isEditEnabled}">
+                <p>
+                  <span class="mat-h3 flex margin-remove" [ngClass]="{ required: true }">Summary </span>
+                  <mat-form-field appearance="outline" class="margin-top-xs" [ngClass]="{ 'mat-form-field-invalid': (moduleForm.controls['description'].hasError('minlength')
+                                                  && !moduleForm.controls['description'].hasError('required')) }">
+                    <input matInput #description formControlName="description" maxlength="500" i18n-placeholder
+                      placeholder="Type here" [required]="'true'">
+                    <mat-error *ngIf="moduleForm.controls['description'].hasError('required')"
+                      i18n="Description Error|Explains description is required">
+                      Summary is mandatory
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-row iteams-center justify-between margin-bottom-l"
+              *ngIf="selectedContentType.type === 'Module'">
+              <div class="flex-1 margin-remove" [ngClass]="{disable: !isEditEnabled}">
+                <label>
+                  <div class="flex flex-middle">
+                    <span [ngClass]="{ required: true }" i18n class="mat-subheading-2 margin-remove">License</span>
+                  </div>
+                  <span i18n *ngIf="infoType === 'license'">Assign license for the content</span>
+                </label>
+                <div class="flex flex-1 margin-top-s">
+                  <ng-container [formGroup]="moduleForm">
+                    <mat-radio-group name="license" class="flex tgl-group margin-remove flex-wrap"
+                      aria-label="Select an option" formControlName="license">
+                      <mat-radio-button matInput [name]="'radio-' + license"
+                        class="flex flex-row itm-center ws-mat-accent-border margin-right-s"
+                        *ngFor="let license of licensesList" [value]="license">
+                        <span class="mat-body-2">{{license}}</span>
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </ng-container>
+                </div>
+                <mat-error *ngIf="false" i18n>License is mandatory
+                </mat-error>
+              </div>
+            </div>
+            <div>
+              <button class="df-btn save_btn" type="submit" *ngIf="isEditEnabled"><span
+                  class="mat-h3 margin-remove">Save</span> </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<div class="resource_main_section" *ngIf="selectedData === 'selectResourceType'">
+  <div class="card-container p-6 my-10">
+    <mat-card class="mat-elevation-z2 mr-6 flex flex-col items-center main_card_box justify-start">
+      <div class="flex flex-row justify-between items-start inner_main_box">
+        <div class="new_cbp_left justify-start flex flex-col">
+          <mat-card-title class="margin-bottom-m">
+            <p class="mat-h2 margin-remove main_heading_text">Resource</p>
+          </mat-card-title>
+          <div class="flex margin-bottom-s" *ngIf="avalibleResourceType.length > 0">
+            <mat-card class="mat-elevation-z2 mr-6 select-card-common flex items-center justify-center cursor-pointer"
+              *ngFor="let listItem of avalibleResourceType" (click)="resourceSelected(listItem)">
+              <div class="flex flex-col justify-center items-center inner_textbox">
+                <mat-card-title>
+                  <mat-icon class="mat-icon margin-bottom-m"> {{listItem.icon}}</mat-icon>
+                </mat-card-title>
+                <mat-card-content>
+                  <p class="mat-subheading-1 ws-mat-black60-text margin-remove">{{listItem.name}} </p>
+                </mat-card-content>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+
+        <!--= cbp right image box section-->
+        <div class="new_cbp_right flex flex-col justify-center items-center">
+
+          <div class="cbp_right_img_block margin-bottom-m">
+            <img src="/assets/images/banners/potal_3.svg">
+          </div>
+          <p class="mat-body margin-remove">Let’s start to add content!</p>
+        </div>
+
+        <div class="flex" *ngIf="parentType !== 'editModule'">
+          <a class="cursor-pointer" (click)="selectedData = 'start'">
+            <span>
+              <mat-icon class="mat-icon ws-mat-black60-text">close</mat-icon>
+            </span>
+          </a>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<div *ngIf="selectedData === 'assessmentHome'">
+  <div class="card-container p-6 my-10">
+    <ws-auth-assessment-home [typeOfData]="parentType" [selectedDataIdentifier]="selectedNodeIdentifier"
+      [assessmentPrimaryCategory]="assessmentCategory" (closeModel)="takeActionOnClose($event)"
+      (assessmentData)="takeActionOnSaveForAssessment($event)">
+    </ws-auth-assessment-home>
+  </div>
+</div>
+
+<div class="resource_main_section" *ngIf="selectedData === 'addCourse'">
+  <div class="card-container p-6 my-10">
+    <mat-card class="mat-elevation-z2 mr-6 flex flex-col items-center main_card_box justify-start">
+      <ws-auth-picker [filterData]="selectedFilterNodeData"
+        (selectedCourseData)="(selectedFilterNodeData) ? takeActionOnSelectedCourse($event) : $event.stopPropagation()">
+      </ws-auth-picker>
+    </mat-card>
+  </div>
+</div>

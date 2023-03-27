@@ -1,0 +1,280 @@
+<div class="upload_files_section">
+  <div class="card-container p-6">
+    <mat-card class="mat-elevation-z2 mr-6 flex flex-col items-center main_card_box justify-start margin-remove">
+      <div class="flex flex-col justify-start inner_main_box">
+        <!-- card title-->
+        <mat-card-title class="flex justify-between items-center">
+          <p class="mat-h2 margin-remove main_heading_text">{{typeOfResorce === 'upload' ? 'Upload file' : typeOfResorce
+            === 'curate' ? 'Attach link' : ''}}</p>
+        </mat-card-title>
+
+        <!-- card content -->
+        <mat-card-content>
+          <div class="flex flex-col iteams-center justify-between margin-bottom-m">
+            <form [formGroup]="contentForm">
+              <div class="flex flex-row items-start justify-between margin-bottom-l">
+
+                <!-- left form item box -->
+                <div class="left_form_box">
+
+                  <div class="form_item">
+                    <div class="margin-top-xs" *ngIf="checkCondition('name', 'show')"
+                      [ngClass]="{ disable: checkCondition('name', 'disabled') }">
+                      <span class="mat-subheading-2 margin-remove flex"
+                        i18n="Title label|Label which explains the user to enter title"
+                        [ngClass]="{ required: checkCondition('name', 'required') }">
+                        Title
+                      </span>
+                      <mat-form-field appearance="outline" class="w-full"
+                        [ngClass]="{ 'mat-form-field-invalid': showError('name') }">
+                        <input matInput #name formControlName="name" maxlength="70" i18n-placeholder
+                          placeholder="Enter a Descriptive title" id="desTitle"
+                          [required]="checkCondition('name', 'required') ? true : null" tabindex="1" />
+                        <mat-hint align="end">{{ name.value.length }} / 70</mat-hint>
+                        <mat-error *ngIf="showError('name')" i18n="Title Error|Explains title is required">
+                          Title is mandatory
+                        </mat-error>
+                        <mat-error
+                          *ngIf="contentForm.controls['name'].hasError('minlength') && !contentForm.controls['name'].errors?.pattern"
+                          i18n="name Error|Explains name is required">
+                          Minimum characters left to create {{10 - contentForm.controls['name'].value.length}}
+                        </mat-error>
+                        <mat-hint class="hintErr" *ngIf="contentForm.controls['name'].errors?.pattern"
+                          i18n="name Error|Explains name is required">
+                          Only {{specialCharList}} characters are supported
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="form_item">
+                    <div class="margin-top-xs" *ngIf="checkCondition('purpose', 'show')"
+                      [ngClass]="{ disable: checkCondition('purpose', 'disabled') }">
+                      <span class="mat-subheading-2 margin-remove flex"
+                        i18n="Subtitle label|Label which explains the user to enter subtitle"
+                        [ngClass]="{ required: checkCondition('purpose', 'required') }">
+                        Subtitle
+                      </span>
+                      <mat-form-field appearance="outline" class="w-full"
+                        [ngClass]="{ 'mat-form-field-invalid': showError('purpose') }">
+                        <input matInput #purpose formControlName="purpose" maxlength="1000" i18n-placeholder
+                          placeholder="Enter subtitle here"
+                          [required]="checkCondition('purpose', 'required') ? true : null" tabindex="2" />
+                        <mat-hint align="end">{{ purpose.value.length }} / 1000</mat-hint>
+                        <mat-error *ngIf="showError('purpose')" i18n="Subtitle Error|Explains subtitle is required">
+                          Subtitle is mandatory
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="form_item">
+                    <div class="margin-top-xs" *ngIf="checkCondition('description', 'show')"
+                      [ngClass]="{ disable: checkCondition('description', 'disabled') }">
+                      <span class="mat-subheading-2 margin-remove flex"
+                        i18n="Summary label|Label which explains the user to enter summary"
+                        [ngClass]="{ required: checkCondition('description', 'required') }">
+                        Summary
+                      </span>
+                      <mat-form-field appearance="outline" class="w-full"
+                        [ngClass]="{ 'mat-form-field-invalid': showError('description') }">
+                        <input matInput #description formControlName="description" maxlength="2000" i18n-placeholder
+                          placeholder="Enter summary here"
+                          [required]="checkCondition('description', 'required') ? true : null" tabindex="3" />
+                        <mat-hint align="end">{{ description.value.length }} / 2000</mat-hint>
+                        <mat-error *ngIf="showError('description')" i18n="Summary Error|Explains summary is required">
+                          Summary is mandatory
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="form_item">
+                    <div class="margin-top-xs" *ngIf="checkCondition('creatorDetails', 'show')"
+                      [ngClass]="{ disable: checkCondition('creatorDetails', 'disabled') }">
+                      <span class="mat-subheading-2 margin-remove flex"
+                        i18n="Authors label|Label which explains the user to enter author"
+                        [ngClass]="{ required: checkCondition('creatorDetails', 'required') }">
+                        Authors
+                      </span>
+                      <mat-form-field appearance="outline" class="w-full"
+                        [ngClass]="{ 'mat-form-field-invalid': showError('creatorDetails') }">
+                        <input matInput #creatorDetails formControlName="creatorDetails" maxlength="500"
+                          i18n-placeholder placeholder="Enter authors name"
+                          [required]="checkCondition('creatorDetails', 'required') ? true : null" tabindex="4" />
+                        <mat-hint align="end">{{ creatorDetails.value.length }} / 500</mat-hint>
+                        <mat-error *ngIf="showError('creatorDetails')"
+                          i18n="Authors Error|Explains authors is required">
+                          Authors is mandatory
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="form_item">
+                    <div *ngIf="checkCondition('duration', 'show')"
+                      [ngClass]="{ disable: checkCondition('duration', 'disabled') }">
+                      <p class="margin-remove-bottom" [ngClass]="{ required: checkCondition('duration', 'required') }">
+                        <span class="mat-subheading-2 margin-0" i18n>Duration</span>
+                        <small i18n>(hh:mm:ss)</small>
+                      </p>
+                      <div class="duration-time">
+                        <div class="duration-d">
+                          <mat-form-field appearance="outline" class="duration-width margin-right-s"
+                            [ngClass]="{ 'marat-form-field-invalid': showError('duration') }">
+                            <input matInput class="numberInput" [(ngModel)]="hours" (ngModelChange)="timeToSeconds()"
+                              [ngModelOptions]="{ standalone: true }" (keyup)="timeToSeconds()" type="number"
+                              placeholder="00" min="0" max="99" step="1" tabindex="5" />
+                          </mat-form-field>
+                          <div class="margin-top-s padding-small">:</div>
+                        </div>
+                        <div class="duration-d">
+                          <mat-form-field appearance="outline" class="duration-width  margin-right-s  margin-left-s"
+                            [ngClass]="{ 'mat-form-field-invalid': showError('duration') }">
+                            <input matInput class="numberInput" [(ngModel)]="minutes" (ngModelChange)="timeToSeconds()"
+                              [ngModelOptions]="{ standalone: true }" (keyup)="timeToSeconds()" type="number"
+                              placeholder="00" min="0" max="59" step="1" tabindex="6" />
+                          </mat-form-field>
+                          <div class="margin-top-s padding-small">:</div>
+                        </div>
+                        <div class="duration-d">
+                          <mat-form-field appearance="outline" class="duration-width  margin-left-s"
+                            [ngClass]="{ 'mat-form-field-invalid': showError('duration') }">
+                            <input matInput class="numberInput" [(ngModel)]="seconds" (ngModelChange)="timeToSeconds()"
+                              [ngModelOptions]="{ standalone: true }" (keyup)="timeToSeconds()" type="number"
+                              placeholder="00" min="0" max="59" step="1" tabindex="7" />
+                            <mat-error *ngIf="showError('duration')"
+                              i18n="Duration Error|Explains Duration is mandatory field">Duration is
+                              mandatory
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form_item">
+                    <div class="margin-top-xs" *ngIf="checkCondition('keywords', 'show')"
+                      [ngClass]="{ disable: checkCondition('keywords', 'disabled') }">
+                      <span class="mat-subheading-2 margin-remove flex"
+                        i18n="Keywords label|Label which explains the user to enter keywords"
+                        [ngClass]="{ required: checkCondition('keywords', 'required') }">
+                        Keywords
+                      </span>
+                      <mat-form-field appearance="outline" class="w-full"
+                        [ngClass]="{ 'mat-form-field-invalid': showError('keywords') }">
+                        <input matInput #keywords formControlName="keywords" maxlength="500" i18n-placeholder
+                          placeholder="Enter keywords name"
+                          [required]="checkCondition('keywords', 'required') ? true : null" tabindex="8" />
+                        <mat-hint align="end">{{ keywords.value.length }} / 500</mat-hint>
+                        <mat-error *ngIf="showError('keywords')" i18n="Keywords Error|Explains keywords is required">
+                          Keywords is mandatory
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- right form item box -->
+                <div class="right_upload_box flex flex-col items-center justify-center"
+                  [ngClass]="{disable: !isEditEnabled}">
+                  <div class="flex justify-items-start flex-col">
+                    <p class="mat-h3 flex margin-remove">{{typeOfResorce === 'upload' ? 'Upload content' : ''}}</p>
+                  </div>
+                  <ws-auth-file-upload [isCollectionEditor]="true" [isSubmitPressed]="isSubmitPressed"
+                    [ngClass]="{ disable: contentMeta?.status?.toLowerCase() === 'live' || contentMeta?.prevStatus?.toLowerCase() === 'live' }"
+                    (data)=" action($event)" class="w-full" *ngIf="typeOfResorce === 'upload'">
+                  </ws-auth-file-upload>
+                  <ws-auth-url-upload [isCollectionEditor]="true" [isSubmitPressed]="isSubmitPressed"
+                    (data)="action($event)" class="w-full" *ngIf="typeOfResorce === 'curate'">
+                  </ws-auth-url-upload>
+                </div>
+              </div>
+
+              <div>
+                <div class="form_item_textarea">
+                  <div class="margin-top-xs" *ngIf="checkCondition('instructions', 'show')"
+                    [ngClass]="{ disable: checkCondition('instructions', 'disabled') }">
+                    <span class="mat-subheading-2 margin-remove flex"
+                      i18n="Description label|Label which explains the user to enter description"
+                      [ngClass]="{ required: checkCondition('instructions', 'required') }">
+                      Description
+                    </span>
+                    <mat-form-field appearance="outline" class="w-full"
+                      [ngClass]="{ 'mat-form-field-invalid': showError('instructions') }">
+                      <textarea matInput #instructions formControlName="instructions" class="description_text_box"
+                        matInput placeholder="Type the description in fewer than 600 characters" rows="3"
+                        i18n-placeholder placeholder="Enter description here"
+                        [required]="checkCondition('instructions', 'required') ? true : null" tabindex="9"></textarea>
+                      <mat-hint align="end">{{ instructions.value.length }} / 600</mat-hint>
+                      <mat-error *ngIf="showError('instructions')"
+                        i18n="Description Error|Explains Description is required">
+                        Description is mandatory
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="form_item">
+                  <div class="flex-1 margin-bottom-l" *ngIf="checkCondition('license', 'show')"
+                    [ngClass]="{ disable: checkCondition('license', 'disabled') }">
+                    <label>
+                      <div class="flex flex-middle">
+                        <span [ngClass]="{ required: checkCondition('license', 'required') }" i18n
+                          class="mat-subheading-2 margin-bottom-xs">License</span>
+                      </div>
+                      <span i18n *ngIf="infoType === 'license'">Assign license for the content</span>
+                    </label>
+                    <div class="flex flex-1 margin-remove"
+                      [ngClass]="{ 'mat-form-field-invalid': showError('license') }">
+                      <ng-container [formGroup]="contentForm">
+                        <mat-radio-group name="license" class="flex tgl-group margin-remove flex-wrap"
+                          aria-label="Select an option" formControlName="license">
+                          <mat-radio-button matInput [name]="'radio-' + license"
+                            class="flex flex-row itm-center ws-mat-accent-border margin-right-s"
+                            *ngFor="let license of ordinals.licenses" [value]="license">
+                            <span class="mat-body-2">{{license}}</span>
+                          </mat-radio-button>
+                        </mat-radio-group>
+                      </ng-container>
+                    </div>
+                    <mat-error *ngIf="showError('license')" i18n>License is mandatory
+                    </mat-error>
+                  </div>
+                </div>
+
+                <!-- <div class="form_item_textarea">
+                  <span class="mat-h3 flex margin-remove">Closed caption / subtitles*</span>
+                  <div class="caption_box flex flex-col items-center justify-center">
+                    <div class="flex flex-row items-center justify-center margin-bottom-s">
+                      icon images here
+                    </div>
+                    <div class="flex flex-col items-center justify-center">
+                      <a class="browse_link">browse files</a>
+                      <p class="mat-body-2 ws-mat-black60-text"> or</p>
+                      <p class="mat-h4 ws-mat-black60-text">Drag file to upload</p>
+                      <p class="mat-small ws-mat-black60-text margin-remove">Max file size: 25 MB</p>
+                      <p class="mat-small ws-mat-black60-text margin-remove">Supported file types: MP4, MOV, AVI, PDF,
+                        WAV, MP3</p>
+                    </div>
+                  </div>
+                </div> -->
+
+
+                <div>
+                  <button class="df-btn save_btn" type="button" (click)="saveDataAndProceed()"
+                    *ngIf="showSaveButton() && isEditEnabled"><span class="mat-h3 margin-remove"
+                      tabindex="10">Save</span> </button>
+                </div>
+
+
+
+              </div>
+            </form>
+          </div>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div>
+</div>

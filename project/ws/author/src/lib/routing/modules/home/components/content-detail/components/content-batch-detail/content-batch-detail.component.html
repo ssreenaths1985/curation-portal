@@ -1,0 +1,74 @@
+<div class="container-balanced mat-app-background">
+  <form [formGroup]="contentForm">
+    <mat-card class="no-border no-shadow border-radius-2 box min-h margin-bottom-l">
+      <mat-card-title class="m-auto">
+        <div class="flex flex-1">
+          <div class="flex">
+            <mat-icon class="padding-xxs cursor-pointer" (click)="moveBack()">arrow_back</mat-icon>
+            <span id="basic-information" class="mat-title">{{batch?.name}}</span>
+          </div>
+          <span class="flex-1"></span>
+          <div class="flex flex-1 flex-row-reverse margin-right-xs">
+            <div class="block">
+              <button mat-button class="margin-right-xs"
+                [ngClass]="{'text-white ws-mat-primary-background':isAllowedToAdd,'ws-mat-accent-border-active': !isAllowedToAdd }"
+                (click)="addLearners(true)">
+                Remove learners
+              </button>
+              <button [disabled]="!isAllowedToAdd" mat-button
+                [ngClass]="{'text-white ws-mat-primary-background':isAllowedToAdd,'ws-mat-accent-border-active': !isAllowedToAdd }"
+                (click)="isAllowedToAdd ? addLearners(false) : null">
+                Add learners
+              </button>
+
+              <!-- <span class="mat-title ws-mat-default-text" *ngIf="!isAllowedToAdd" i18n>Enrolment date
+              passed.</span>
+            {{batch?.enrollmentEndDate}} -->
+            </div>
+          </div>
+        </div>
+      </mat-card-title>
+      <mat-card-content class="margin-top-m mobile-break">
+        <mat-card class="ws-mat-accent-border no-shadow border-radius-2 box ws-mat-background-04">
+          <div class="flex flex-1 flex-column">
+            <span class="mat-subheading-1">Batch details</span>
+            <div class="flex-custom">
+              <span class="mat-body-2 display">
+                <mat-icon class="icn">tag</mat-icon> {{batch?.batchId}}
+              </span>
+              <span class="mat-body-2 display">
+                <mat-icon class="icn">event</mat-icon>{{batch?.startDate | date: 'dd/MM/yyyy'}}
+              </span>
+              <span class="mat-body-2 display">
+                <mat-icon class="icn">event</mat-icon>{{batch?.endDate | date: 'dd/MM/yyyy'}}
+              </span>
+              <!-- <span class="mat-body-2 display">
+                <mat-icon class="icn">timer</mat-icon>{{batch?.duration | pipeDurationTransform}}
+              </span> -->
+              <span class="mat-body-2 display">
+                <mat-icon class="icn">people</mat-icon>{{batch?.learners || batchUsersCount || '0'}} Learners
+              </span>
+            </div>
+          </div>
+        </mat-card>
+        <div class="flex flex-1 flex-column margin-fix">
+          <div class="flex flex-1 filter max-height-60 over-flow">
+            <ng-container *ngIf="batchDefaults && batchDefaults.tabs">
+              <ng-container *ngFor="let mi of batchDefaults.tabs">
+                <a (click)="routeToScreen(mi.type)" routerLinkActive="router-link-active"
+                  *ngIf="isAllowed(mi.rolesRequired) && mi.enabled" class="filter-option" queryParamsHandling="merge"
+                  [ngClass]="{'ws-mat-accent-border-active' : status === mi.type, 'ws-mat-accent-border font-medium':status !== mi.type}"
+                  mat-button role="button">
+                  {{mi.name}}
+                </a>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+        <div class="container-balanced">
+          <router-outlet></router-outlet>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

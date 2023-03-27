@@ -1,0 +1,60 @@
+@import "ws-mixins";
+@import "ws-common";
+
+.border-radius-2 {
+  border-radius: 2px;
+}
+.box {
+  margin: $size-s $size-s $size-s 0;
+  min-width: 363px;
+  min-height: 104px;
+}
+.flex-2 {
+  flex: 2;
+}
+.margin-0 {
+  margin: 0 !important;
+}
+.text-white {
+  color: white !important;
+}
+.mobile-break {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0 $size-m 0 0;
+  flex: 0 50%;
+  // background: bisque;
+}
+
+.new-mobile {
+  display: flex;
+  flex-direction: row;
+  // margin-top: $size-l;
+
+  @include breakpoint-s {
+    flex-direction: column;
+  }
+
+  @include breakpoint-xs {
+    flex-direction: column;
+  }
+}
+
+.card-contan {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+
+  @include breakpoint-s {
+    flex-direction: column;
+  }
+
+  @include breakpoint-xs {
+    flex-direction: column;
+  }
+}
+.itm-center {
+  align-items: center;
+  padding: $size-m;
+}

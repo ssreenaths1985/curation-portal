@@ -1,0 +1,213 @@
+@import 'ws-common';
+@import 'ws-mixins';
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.divider{
+  height: 1px;
+}
+.basic_info_main {
+  box-sizing: border-box;
+}
+::ng-deep.surveytitle {
+  width: 44% !important;
+}
+::ng-deep .mat-form-field-infix {
+  padding: 0.2em 0 0.75em 0 !important;
+  font: 400 14px/20px Lato !important;
+}
+.point_box {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 4px 4px;
+  box-sizing: border-box;
+}
+.point_heading_box {
+  width: 250px;
+  box-sizing: border-box;
+  height: 425px;
+}
+.point_detail_box {
+  width: calc(100% - 245px);
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 3px 3px;
+  padding: 1rem;
+  height: 425px;
+}
+.bg_white {
+  background-color: #fff;
+}
+.text-white {
+  color: #ffffff !important;
+}
+.desc_textarea {
+  height: 170px;
+}
+.cut_off_box {
+  width: 215px;
+  box-sizing: border-box;
+}
+.detail_inner {
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border-radius: 4px 4px;
+  p {
+    margin-bottom: 0;
+  }
+}
+.cut_off_box_01 {
+  margin-left: 2px;
+}
+
+.mat-button {
+  padding: 2px 16px;
+  box-sizing: border-box;
+}
+.save_btn {
+  border: 1px solid #0074b6!important;
+  color:#0074b6!important;
+}
+.save-custom {
+  height: 38px !important;
+  padding: 0 16px !important;
+}
+.add_ques_btn {
+  padding: 0 12px;
+  height: 40px;
+  box-sizing: border-box;
+}
+.mat-icon.arrow_right {
+  color: #fff;
+}
+.margin-bottom-none {
+  margin-bottom: 0!important;
+}
+.mat-list.mat-list-base {
+      height: 350px;
+    overflow-y: auto;
+}
+.sub_text {
+  font: 400 12px/16px 'Lato';
+}
+.w-50 {
+  width: 50%;
+}
+.add_question_top_box {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.search-border {
+    border-color: #cecece;
+}
+
+.question_box {
+  min-height: 250px;
+  height: 100%;
+  overflow-y: auto;
+}
+.select_box {
+  width: 225px;
+}
+
+.listOfQuestions{
+  position: relative;
+  .moreOptions {
+    position: absolute;
+    right: 0px;
+  }
+  ::ng-deep .mat-list-item-content {
+   padding: 0 !important;
+  }
+  ::ng-deep  .mat-list-item{
+    height: auto  !important;
+  }
+}
+
+.questionlistCss {
+  padding: 5px;
+  border: 1px solid #f2f2f2;
+  border-left: 5px solid #666666 !important;
+  width: 100%;
+  &.mat-radio-checked {
+    border-left: 5px solid #ea9f35 !important;
+  }
+  ::ng-deep .mat-radio-container {
+    display: none !important;
+  }
+  ::ng-deep .mat-radio-label-content{
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0;
+  }
+}
+
+.disable {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: none;
+}
+
+.search-box {
+  display: block;
+  max-width: 600px;
+}
+.search-border {
+  border-radius: 0.25rem;
+  border-color: #cecece;
+}
+
+:host ::ng-deep .search {
+  .mat-form-field-wrapper {
+    padding-bottom: 0px !important;
+  }
+
+  .mat-form-field-infix {
+    border-top-width: 2px !important;
+    margin: auto;
+  }
+}
+
+.search {
+  // width: 100%;
+  flex: 1;
+  max-width: 500px;
+  box-sizing: border-box;
+  max-height: 48px;
+}
+
+button[disabled] {
+  opacity: 0.4 !important;
+}
+
+::ng-deep.mat-select-arrow-wrapper {
+    transform: translateY(2%) !important;
+}
+
+::ng-deep.mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+  color: rgba(0, 0, 0, 0.54) !important;
+}
+.custom-search {
+  margin: 6px 6px 0 !important;
+  vertical-align: middle;
+  max-width: 94%;
+}

@@ -1,0 +1,151 @@
+.text-white {
+  color: #ffffff !important;
+}
+
+.search-box {
+  display: block;
+  max-width: 600px;
+}
+
+:host ::ng-deep .search {
+  .mat-form-field-wrapper {
+    padding-bottom: 0px !important;
+  }
+
+  .mat-form-field-infix {
+    border-top-width: 2px !important;
+    margin: auto;
+  }
+}
+
+.survey-table {
+  border-spacing: 0px;
+}
+
+.row-header {
+  padding: 16px 0 16px 16px;
+  text-align: center;
+}
+.sub-table {
+  border: 1px solid rgba($color: #000000, $alpha: 0.16);
+  border-radius: 8px 8px;
+  width: 98%;
+  margin: 4px auto 14px;
+}
+.sub-heading-text {
+  font: 400 12px/16px Lato;
+}
+.table--div {
+  display: table-row-group;
+  width: 100%;
+}
+.mat-icon2 {
+  vertical-align: middle;
+  font-size: 20px;
+}
+.search-border {
+  // border-radius: 0.75rem;
+  border-color: #cecece;
+}
+.v-middle{
+  vertical-align: middle;
+}
+.w-65 {
+  width: 65%;
+}
+
+.search {
+  // width: 100%;
+  flex: 1;
+  max-width: 30%;
+  box-sizing: border-box;
+  max-height: 40px;
+}
+
+th.row-header:nth-child(1),
+td.row-header:nth-child(1) {
+  text-align: left
+}
+
+th.row-header:nth-child(2),
+th.row-header:nth-child(6),
+td.row-header:nth-child(6) {
+  width: 15%
+}
+
+th.row-header:nth-child(3),
+td.row-header:nth-child(3),
+.sub-table td.row-header:nth-child(2),
+.sub-table th.row-header:nth-child(2) {
+  width: 8%;
+  text-align: right;
+}
+.sub-table td.row-header:nth-child(1),
+.sub-table th.row-header:nth-child(1) {
+  width: 38%;
+}
+
+.sub-table td.row-header:nth-child(3) {
+  width: 28% !important;
+  text-align: right !important;
+  padding-right: 3%;
+}
+
+.custom-search {
+  margin: 1px !important;
+  vertical-align: middle;
+}
+
+table {
+  width: 100%;
+
+  &.surveyTable {
+    box-shadow: none;
+
+    .h-400-r-14-l {
+      font: normal 14px Lato!important;
+      font-weight: 400!important;
+    }
+    .responses {
+      text-align: center;
+    }
+  }
+
+  tr.detail-row {
+  height: 0;
+  }
+
+  .element-row td {
+    border-bottom-width: 0;
+    font: normal 14px Lato!important;
+    font-weight: 400!important;
+  }
+
+  .new-row {
+    height: 58px !important;
+  }
+
+  .element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+
+
+}
+
+.response_tab {
+ width: 15%;
+  padding-right: 45px;
+  box-sizing: border-box;
+  text-align: right!important;
+}
+
+.survay_tab {
+  width: 30%;
+}
+.date_tab {
+  width: 20%;
+}
+
+
+

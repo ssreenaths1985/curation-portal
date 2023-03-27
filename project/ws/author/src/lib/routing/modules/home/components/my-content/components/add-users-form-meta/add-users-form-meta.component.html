@@ -1,0 +1,106 @@
+<div class="container-balanced fix-ww mt-1">
+  <mat-sidenav-container>
+    <mat-sidenav>
+      this is sidenav
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="container-balanced padding-remove">
+        <div class="profile-container">
+          <div class="profile-box">
+            <form class="create-user-form padding-remove" [formGroup]="contentForm">
+              <div class="input-column px-2">
+                <label class="heading">User details</label>
+                <div class="input-wrapper margin-top-s">
+                  <div class="flex flex-row iteams-center justify-between">
+                    <div class="form_item w-full" [ngClass]="{'disable': selectedAction.type === 'existingUser'}">
+                      <div class="margin-top-xs">
+                        <span class="mat-subheading-2 margin-remove flex required"
+                          i18n="First name|Label which explains the user to enter title">
+                          First name
+                        </span>
+                        <mat-form-field appearance="outline">
+                          <input matInput #firstName formControlName="firstName" maxlength="500" i18n-placeholder
+                            placeholder="Enter first name" [required]="true" />
+                          <mat-error i18n="First name|Explains first name is required">
+                            First Name is mandatory
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="form_item w-full" [ngClass]="{'disable': selectedAction.type === 'existingUser'}">
+                      <div class="margin-top-xs">
+                        <span class="mat-subheading-2 margin-remove flex required"
+                          i18n="Last name|Label which explains the user to enter title">
+                          Last name
+                        </span>
+                        <mat-form-field appearance="outline">
+                          <input matInput #lastName formControlName="lastName" maxlength="500" i18n-placeholder
+                            placeholder="Enter last name" [required]="true" />
+                          <mat-error i18n="last name|Explains last name is required">
+                            Last Name is mandatory
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-row iteams-center justify-between">
+                    <div class="form_item w-full" [ngClass]="{'disable': selectedAction.type === 'existingUser'}">
+                      <div class="margin-top-xs">
+                        <span class="mat-subheading-2 margin-remove flex required"
+                          i18n="Email|Label which explains the user to enter title">
+                          Email
+                        </span>
+                        <mat-form-field appearance="outline">
+                          <input matInput #email formControlName="email" maxlength="500" i18n-placeholder
+                            placeholder="Enter Email" [required]="true" />
+                          <mat-error i18n="Email|Explains Email is required">
+                            Email is mandatory
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="form_item w-full disable">
+                      <div class="margin-top-xs">
+                        <span class="mat-subheading-2 margin-remove flex required"
+                          i18n="Department|Label which explains the user to enter title">
+                          Department
+                        </span>
+                        <mat-form-field appearance="outline">
+                          <input matInput #channel formControlName="channel" maxlength="500" i18n-placeholder
+                            placeholder="Enter Department" [required]="true" />
+                          <mat-error i18n="Department|Explains Department is required">
+                            Department is mandatory
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="input-wrapper margin-top-s margin-bottom-s">
+                  <label aria-label="Roles label" class="margin-remove-bottom form-label required" for="roles"> Role
+                  </label>
+                  <mat-selection-list class="mat-selection-list mat-list-base" id="roles" #roles role="listbox"
+                    tabindex="0" aria-disabled="false" formControlName="selectedRoles">
+                    <mat-list-option class="mat-list-item mat-list-option" *ngFor="let item of listOfRoles"
+                      [value]="item">
+                      {{item}}
+                    </mat-list-option>
+                  </mat-selection-list>
+                </div>
+                <button mat-raised-button class="ws-mat-primary-background mat-button mat-button-base text-white"
+                  type="button" (click)="createUser()" *ngIf="selectedAction.type === 'createNew'">Create user</button>
+                <button mat-raised-button class="ws-mat-primary-background mat-button mat-button-base text-white"
+                  type="button" (click)="updateuser()" *ngIf="selectedAction.type === 'existingUser'">
+                  Update</button>
+                <button mat-raised-button class="margin-left-s ws-mat-accent-border mat-button mat-button-base"
+                  type="button" (click)="actionBtn('addUserCancel')">Cancel</button>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+</div>

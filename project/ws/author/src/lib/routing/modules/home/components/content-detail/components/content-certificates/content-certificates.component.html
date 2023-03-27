@@ -1,0 +1,45 @@
+<div class="flex flex-1 flex-column">
+  <div class="flex flex-1">
+    <div class="flex flex-1">
+      <mat-form-field appearance="outline" class="margin-top-xs flex-05">
+        <input class="my-custom-component-small" matInput #search maxlength="500" i18n-placeholder
+          placeholder="Search" />
+      </mat-form-field>
+    </div>
+    <div class="flex">
+      <button [disabled]="!isAllowed" mat-button (click)="!isAllowed ? null : addNewCertificate()"
+        [ngClass]="{'text-white ws-mat-primary-background' : isAllowed,'ws-mat-accent-border':!isAllowed}"
+        class="m-auto m-w-h">
+        Create new
+      </button>
+    </div>
+  </div>
+  <ng-container *ngIf="certificate && certificateTemplates.length > 0">
+    <ng-container *ngFor="let templ of certificateTemplates">
+      <mat-card class="flex flex-1 custom-h ws-mat-background-04">
+        <div class="flex flex-1 flex-column">
+          <span class="mat-subheading-1">{{templ.displayName || templ.name}}</span>
+          <!-- <span class="mat-body-2">{{'Issued to learners'}}</span> -->
+        </div>
+        <div class="flex flex-1 flex-row">
+          <span class="m-auto flex-1 mat-subheading-2 ws-mat-black60-text m-w-h cursor-pointer"
+            (click)="preview(templ)">Preview
+            certificate</span>
+          <button mat-button (click)="viewLearners(templ)" class="m-auto text-white ws-mat-primary-background m-w-h">
+            View learners
+          </button>
+        </div>
+      </mat-card>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="!(certificate && certificateTemplates.length > 0)">
+    <span i18n>No certificate available. Click
+      <a mat-button (click)="addNewCertificate()" class="m-auto ws-mat-default-text m-w-h-f">
+        here <mat-icon>open_in_new</mat-icon>
+      </a>
+      to create a new certificate</span>
+  </ng-container>
+  <div class="container-balanced">
+    <router-outlet></router-outlet>
+  </div>
+</div>

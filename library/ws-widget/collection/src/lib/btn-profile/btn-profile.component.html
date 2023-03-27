@@ -1,0 +1,91 @@
+<!--
+  Old
+  <button mat-button (click)="getCatalog()" i18n-matTooltip matTooltip="Explore Catalogue" #rootTrigger="matMenuTrigger"
+  [matMenuTriggerFor]="rootMenu.childMenu">
+  <mat-icon>apps</mat-icon>
+  <span class="padding-left-xs" i18n>Browse Courses</span>
+</button>
+<ws-widget-tree-catalog-menu #rootMenu [rootTrigger]="rootTrigger" [catalogItems]="catalogItems | slice: 0:10"
+  [fetchStatus]="catalogFetchStatus" isRoot="true">
+</ws-widget-tree-catalog-menu> -->
+
+<a href="javascript:void(0)" mat-icon-button i18n-aria-label title="option" class="new-margin"
+  #rootTrigger="matMenuTrigger" [matMenuTriggerFor]="settingsMenu" role="link">
+  <span class="flex flex-column flex-middle">
+    <ws-widget-avatar-photo [photoUrl]="profileImage" [name]="givenName" size="s">
+    </ws-widget-avatar-photo>
+  </span>
+</a>
+
+<!-- <ws-widget-tree-catalog-menu #rootMenu [rootTrigger]="rootTrigger" [catalogItems]="catalogItems | slice: 0:10"
+  [fetchStatus]="catalogFetchStatus" isRoot="true">
+</ws-widget-tree-catalog-menu> -->
+<mat-menu #settingsMenu="matMenu" xPosition="before">
+  <!-- <div mat-menu-item>
+    <mat-slide-toggle color="primary" labelPosition="before">
+      <mat-icon>brightness_medium</mat-icon>
+      <span i18n>Dark Mode</span>
+    </mat-slide-toggle>
+  </div> -->
+  <!-- <section *ngIf="pinnedApps?.length && isPinFeatureAvailable" class="p-4 md:p-4 sm:p-2">
+    <div class="flex justify-between">
+      <h2 class="mat-title margin-bottom-xs" i18n>Pinned</h2>
+      <a mat-button [routerLink]="widgetData?.allListingUrl" *ngIf="widgetData?.allListingUrl">
+        <span class="flex items-center">
+          <span i18n>All</span>&nbsp;
+          <mat-icon>chevron_right</mat-icon>
+        </span>
+      </a>
+    </div>
+    <div class="flex flex-wrap -mx-2 -mt-1">
+      <ng-container *ngFor="let pinnedWidget of pinnedApps" [wsResolverWidget]="pinnedWidget"></ng-container>
+    </div>
+  </section> -->
+
+  <section class="padding-s border-bottom min-heig">
+    <!-- routerLink="/app/person-profile/me -->
+    <a mat-menu-item role="link" class="all-features flex" id="viewprofile" style="height: auto;">
+      <div class="float-left">
+        <ws-widget-avatar-photo [name]="givenName" [size]="'m'" [photoUrl]="profileImage"></ws-widget-avatar-photo>
+      </div>
+      <div class="inline-block margin-left-s pfname margin-eight">
+        <p class="mat-subheading-2">{{ givenName }}</p>
+        <p i18n role="link" class="ws-mat-default-text mat-body-2 font-medium"></p>
+      </div>
+    </a>
+  </section>
+
+  <!-- portal links section-->
+  <section *ngIf="portalLinks && portalLinks.length"
+    class="padding-top-xs padding-bottom-xs padding-left-s padding-right-s border-bottom">
+    <div class="margin-top-s margin-bottom-s" *ngFor="let wdata of portalLinks">
+      <div class="box-sizing-box" id="wdata.widgetData.actionBtn.id">
+        <a mat-menu-item role="link" class="inline-block" target="_blank" href="{{wdata.widgetData.actionBtn.url}}">
+          <img src="{{wdata.widgetData.actionBtn.icon}}" alt="wdata.widgetData.actionBtn.name">
+          <div class="mb-2 mat-body-2 inline-block margin-left-s portal-name"
+            [attr.id]="wdata.widgetData.actionBtn.icon">{{ wdata.widgetData.actionBtn.name }} <span
+              *ngIf="wdata.widgetData.actionBtn.name !== 'Frac'">portal</span> <span
+              *ngIf="wdata.widgetData.actionBtn.name === 'Frac'">dictionary</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="padding-xs">
+    <!-- <a mat-menu-item role="link" routerLink="/app/profile/settings" class="all-features">
+      <span i18n>Settings</span>
+    </a> -->
+
+    <!-- <a mat-menu-item role="link" routerLink="/app/features" class="all-features flex-wrap">
+      <mat-icon>apps</mat-icon>
+      <span i18n>Explore all features</span>
+    </a> -->
+    <a mat-menu-item role="link" routerLink="/app/info/help" class="log-o">
+      <span i18n>Help</span>
+    </a>
+    <a href="javascript:void(0)" mat-menu-item role="link" (click)="logout()" class="log-o">
+      <!-- <mat-icon>power_settings_new</mat-icon>&nbsp; -->
+      <span i18n>Sign-out</span>
+    </a>
+  </section>
+</mat-menu>

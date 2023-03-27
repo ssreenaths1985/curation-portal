@@ -1,0 +1,27 @@
+@import "ws-mixins";
+@import "ws-common";
+.custom-h {
+  max-height: 80px;
+  box-shadow: none !important;
+}
+
+.text-white {
+  color: white !important;
+}
+.m-w-h {
+  max-width: 121px;
+  max-height: 40px;
+}
+.m-w-h-f {
+  max-width: 120px;
+  max-height: 40px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.m-auto {
+  margin: auto;
+}
+
+.flex-05 {
+  flex: 0.49;
+}

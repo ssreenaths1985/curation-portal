@@ -1,0 +1,57 @@
+@import "ws-mixins";
+@import "ws-common";
+
+.container-balanced {
+  @extend %page-center;
+  margin-left: 2rem !important;
+}
+.min-h {
+  min-height: 80vh;
+}
+.flex-custom {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  @include breakpoint-s {
+    flex-direction: column;
+  }
+
+  @include breakpoint-xs {
+    flex-direction: column;
+  }
+}
+.display {
+  display: flex;
+  flex: 1;
+}
+.icn {
+  margin: 0 $size-xs;
+}
+.filter {
+  .filter-option {
+    margin: $size-xs $size-m;
+    /* border-bottom: darkslateblue; */
+    border-radius: 0;
+    border-bottom-width: 2px;
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+  }
+}
+
+.hand {
+  cursor: pointer;
+}
+.max-height-60 {
+  max-height: 60px;
+}
+.margin-fix {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.new-box {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+}

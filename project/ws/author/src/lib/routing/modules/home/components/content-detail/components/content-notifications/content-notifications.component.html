@@ -1,0 +1,35 @@
+<mat-card class="flex flex-1 new-box">
+  <mat-card-content class="flex-1">
+    <div class="flex flex-1">
+      <div class="flex flex-1 flex-column margin-fix">
+        <div class="flex flex-1 filter max-height-60">
+          <a (click)="routeToScreen(batchTimeline.Scheduled)" routerLinkActive="router-link-active"
+            *ngIf="isAllowed([])" class="filter-option" queryParamsHandling="merge"
+            [ngClass]="{'ws-mat-accent-border-active' : status === batchTimeline.Scheduled, 'ws-mat-accent-border font-medium':status !== batchTimeline.Scheduled}"
+            mat-button role="button">
+            Scheduled
+          </a>
+
+          <a (click)="routeToScreen(batchTimeline.Past)" routerLinkActive=" router-link-active" *ngIf="isAllowed([])"
+            class="filter-option" queryParamsHandling="merge"
+            [ngClass]="{'ws-mat-accent-border-active' : status === batchTimeline.Past, 'ws-mat-accent-border font-medium':status !== batchTimeline.Past}"
+            mat-button role="button">
+            Past
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-1 flex-row-reverse margin-right-xs">
+        <div class="block margin-fix">
+          <button mat-button class="text-white ws-mat-primary-background" *ngIf="isAllowed"
+            (click)="createNewBatch()">Create new</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="getTableData && getTableData.length>0" class="flex flex-wrapped flex-dynamic margin-xs">
+      <ws-widget-table-card-content class="flex-1" [userRoles]="myRoles" [userId]="userId" [widgetData]="tableData"
+        [data]="getTableData" (actionsClick)="action($event)">
+      </ws-widget-table-card-content>
+    </div>
+  </mat-card-content>
+</mat-card>

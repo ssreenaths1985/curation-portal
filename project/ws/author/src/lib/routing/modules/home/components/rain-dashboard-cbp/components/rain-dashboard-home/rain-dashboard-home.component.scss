@@ -1,0 +1,33 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+.center {
+  max-height: calc(100vh - 2 * #{$mat-toolbar-gt-xs} - 2 * 52px);
+  padding: 0px;
+}
+
+.center3 {
+  max-height: calc(100vh - 88px - 56px - 2 * 46px);
+  padding: 0px;
+}
+.height {
+  height: -webkit-fill-available;
+}
+.widget-box {
+    background-image: url("/assets/images/card/wave-light.svg");
+    background-repeat: no-repeat;
+    background-position: 90%;
+}
+
+.thank-you-image-1 {
+    width: 11.75rem;
+    height: 11.75rem;
+    background-image: url("/assets/images/card/rating.svg");
+    background-repeat: no-repeat;
+}
+
+.home-image-1 {
+    background-image: url("/assets/images/card/home_black_24dp.svg");
+    background-repeat: no-repeat;
+    background-position: 75% 40%;
+}

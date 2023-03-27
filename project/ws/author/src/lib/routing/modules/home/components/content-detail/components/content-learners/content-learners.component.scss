@@ -1,0 +1,36 @@
+@import "ws-mixins";
+@import "ws-common";
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+}
+.box > * {
+  flex: 1 1 400px;
+
+  @include breakpoint-s {
+    flex: 1 1 350px;
+  }
+  @include breakpoint-xs {
+    flex: 1 1 100%;
+  }
+}
+
+.a {
+  flex: 0 0 150px;
+}
+.b-c {
+  flex-direction: row;
+  display: flex;
+  flex-grow: 1;
+  // @include breakpoint-s {
+  //   flex-direction: column;
+  // }
+
+  @include breakpoint-xs {
+    flex-direction: column;
+  }
+}
+.min-w {
+  min-width: 49%;
+}
